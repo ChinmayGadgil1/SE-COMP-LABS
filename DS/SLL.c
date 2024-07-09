@@ -12,16 +12,19 @@ void searchList(struct node*,int);
 struct node* addAtBegin(struct node*,int);
 struct node* addAtEnd(struct node* ,int);
 struct node* createList(struct node*);
-struct node* addAtBet(struct node*,int,int);
-
-
+struct node* addAtPos(struct node*,int,int);
+struct node* addAfter(struct node*,int,int);
+struct node* addBefore(struct node*,int,int);
+struct node* deleteNode(struct node*,int);
+struct node* reverse(struct node*);
 
 int main(){
 
 struct node* start=NULL;
 int choice;
 int item;
-int index;
+int position;
+int data;
 
 while (1)
 {
@@ -29,7 +32,15 @@ while (1)
     printf("2. Display list\n");
     printf("3. Count\n");
     printf("4. Search list\n");
-    printf("5. Quit\n");
+    printf("5. Add at Beginning\n");
+    printf("6. Add at End\n");
+    printf("7. Add after Node\n");
+    printf("8. Add before Node\n");
+    printf("9. Add at position\n");
+    printf("10. Delete Node\n");
+    printf("11. Reverse List\n");
+    printf("12. Quit\n");
+    printf("Your choice=> ");
     scanf("%d",&choice);
     switch (choice)
     {
@@ -49,11 +60,39 @@ while (1)
         searchList(start,item);
         break;
     case 5:
-        printf("Enter element and index to add:\n");
-        scanf("%d%d", &item,&index);
-        start=addAtBet(start,item,index);
+        printf("Enter data to be added at beginning: ");
+        scanf("%d",&data);
+        start=addAtBegin(start,data);
         break;
     case 6:
+        printf("Enter data to be added at end: ");
+        scanf("%d",&data);
+        start=addAtEnd(start,data);
+        break;
+    case 7:
+        printf("Enter the data and item after which to insert: ");
+        scanf("%d %d",&data,&item);
+        start=addAfter(start,data,item);
+        break;
+    case 8:
+        printf("Enter the data and item before which to insert: ");
+        scanf("%d %d",&data,&item);
+        start=addBefore(start,data,item);
+        break;
+    case 9:
+        printf("Enter the data and position to insert: ");
+        scanf("%d %d",&data,&position);
+        start=addAtPos(start,data,position);
+        break;
+    case 10:
+        printf("Enter the item to be deleted: ");
+        scanf("%d",&data);
+        start=deleteNode(start,data);
+        break;
+    case 11:
+        start=reverse(start);
+        break;
+    case 12:
         printf("\nQuiting...\n");
         exit(1);
     default:
@@ -171,21 +210,118 @@ struct node* createList(struct node* start){
     return start;
 }
 
-struct node* addAtBet(struct node* start,int data,int pos){
-    struct node* tmp;
+
+
+struct node* addAfter(struct node* start,int data,int item){
+    struct node* tmp,*p=start;
+    while (p!=NULL)
+    {
+        if(p->info==item)
+        {
+            tmp=(struct node*)malloc(sizeof(struct node));
+            tmp->info=data;
+            tmp->link=p->link;
+            p->link=tmp;
+            return start;
+        }
+        p=p->link;
+    }
+    printf("Item not found\n");
+    return start;
+}
+
+struct node * addBefore(struct node* start,int data,int item){
+    struct node* tmp,*p=start;
+    if (start==NULL)
+    {
+        printf("List is Empty\n");
+        return start;
+    }
+    if (start->info==item){
+        tmp=(struct node*)malloc(sizeof(struct node));
+        tmp->info=data;
+        tmp->link=start;
+        start=tmp;
+        return tmp;
+    }
+    while (p->link!=NULL)
+    {
+        if(p->link->info==item){
+            tmp=(struct node*)malloc(sizeof(struct node));
+            tmp->info=data;
+            tmp->link=p->link;
+            p->link=tmp;
+            return start;
+        }
+        p=p->link;
+    }
+    printf("Item not found\n");
+    return start;
+}
+
+struct node* addAtPos(struct node* start,int data,int pos){
+    struct node* tmp,*p=start;
+    if(pos==1){
+        tmp=(struct node*)malloc(sizeof(struct node));
+        tmp->info=data;
+        tmp->link=start;
+        start=tmp;
+        return start;
+    }
+    for (int i = 1; i < pos-1 && p!=NULL; i++){
+        p=p->link;
+    }
+
+    if(p==NULL){
+        printf("There are less elements than position\n");
+        return start;
+    }
     tmp=(struct node*)malloc(sizeof(struct node));
     tmp->info=data;
-
-    struct node* p=start;
-    struct node* q=start->link;
-
-    for (int i = 0; i < pos; i++)
-    {
-        p=p->link;
-        q=q->link;
-    }
-    
+    tmp->link=p->link;
     p->link=tmp;
-    tmp->link=q;
+    return start;
+}
+
+struct node* deleteNode(struct node* start,int data){
+    struct node* tmp,*p=start;
+
+    if(start==NULL){
+        printf("List is empty\n");
+        return start;
+    }
+    if(start->info==data){
+        tmp=start;
+        start=start->link;
+        free(tmp);
+        return start;
+    }
+
+    while(p->link!=NULL){
+        if(p->link->info==data){
+            tmp=p->link;
+            p->link=tmp->link;
+            free(tmp);
+            return start;
+        }
+        p=p->link;
+    }
+    printf("data not found\n");
+    return start;
+}
+
+struct node* reverse(struct node* start){
+    struct node* prev,*ptr,*next;
+    prev=NULL;
+    ptr=start;
+
+    while (ptr!=NULL)
+    {
+        next=ptr->link;
+        ptr->link=prev;
+        prev=ptr;
+        ptr=next;
+    }
+    start=prev;
     return start;
 }
