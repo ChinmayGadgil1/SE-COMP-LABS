@@ -162,43 +162,6 @@ struct node *createList(struct node *start)
 
 int main()
 {
-
-    // struct node* a=(struct node*)malloc(sizeof(struct node));
-    // struct node* b=(struct node*)malloc(sizeof(struct node));
-    // struct node* c=(struct node*)malloc(sizeof(struct node));
-    // struct node* d=(struct node*)malloc(sizeof(struct node));
-    // struct node* e=(struct node*)malloc(sizeof(struct node));
-
-    // a->link=b;
-    // b->link=c;
-    // c->link=d;
-    // d->link=e;
-    // e->link=NULL;
-
-    // a->info=10;
-    // b->info=20;
-    // c->info=30;
-    // d->info=40;
-    // e->info=50;
-
-    // struct node* f=(struct node*)malloc(sizeof(struct node));
-    // struct node* g=(struct node*)malloc(sizeof(struct node));
-    // struct node* h=(struct node*)malloc(sizeof(struct node));
-    // struct node* i=(struct node*)malloc(sizeof(struct node));
-    // struct node* j=(struct node*)malloc(sizeof(struct node));
-
-    // f->link=g;
-    // g->link=h;
-    // h->link=i;
-    // i->link=j;
-    // j->link=NULL;
-
-    // f->info=10;
-    // g->info=22;
-    // h->info=30;
-    // i->info=44;
-    // j->info=50;
-
     struct node *s1 = NULL;
     struct node *s2 = NULL;
     s1 = createList(s1);
@@ -213,16 +176,6 @@ int main()
     struct node *unionOfList = unionList(s1, s2);
     displayList(unionOfList);
 
-    // free(a);
-    // free(b);
-    // free(c);
-    // free(d);
-    // free(e);
-    // free(f);
-    // free(g);
-    // free(h);
-    // free(i);
-    // free(j);
-
+   
     return 0;
 }
