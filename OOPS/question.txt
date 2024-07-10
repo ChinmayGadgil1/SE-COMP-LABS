@@ -1,0 +1,2 @@
+wap a program to simulate results of students where you have to enter marks of 6 subjects
+calculate percentage and assign respective gp to student

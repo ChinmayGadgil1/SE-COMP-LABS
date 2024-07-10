@@ -97,7 +97,6 @@ while (1)
         exit(1);
     default:
         printf("Invalid input try again\n");
-        break;
     }
 
 }
@@ -242,7 +241,7 @@ struct node * addBefore(struct node* start,int data,int item){
         tmp->info=data;
         tmp->link=start;
         start=tmp;
-        return tmp;
+        return start;
     }
     while (p->link!=NULL)
     {
