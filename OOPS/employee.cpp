@@ -10,7 +10,7 @@ struct employeeRecord{
 void search(struct employeeRecord e[],int size,int id,string add){
 int count=0;
 
-cout<<endl<<"Employees with id "<<id<<"and address: "<<add<<endl;
+cout<<endl<<"Employees with id "<<id<<" and address: "<<add<<endl;
 for(int i=0;i<size;i++){
     if(e[i].id==id && e[i].address==add){
         count++;
