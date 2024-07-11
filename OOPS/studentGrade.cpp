@@ -3,7 +3,8 @@ using namespace std;
 
 class student{
     public:
-    string name;
+    string first_name;
+    string last_name;
     int marks[4];
     int GP;
     float percentage;
@@ -64,7 +65,7 @@ for (int i = 0; i < n; i++)
 {
     cout<<"\nEnter details of student "<<i+1<<" :"<<endl;
     cout<<"Enter name: ";
-    cin>>s[i].name;
+    cin>>s[i].first_name>>s[i].last_name;
     cout<<"Enter marks:"<<endl;
     cout<<"Math: ";
     cin>>s[i].marks[0];
@@ -91,7 +92,7 @@ for (int i = 0; i < n; i++)
 for (int i = 0; i < n; i++)
 {
     cout<<"\nStudent "<<i+1<<endl;
-    cout<<"Name: "<<s[i].name<<endl;
+    cout<<"Name: "<<s[i].first_name<<" "<<s[i].last_name<<endl;
     cout<<"Percentage: "<<s[i].percentage<<endl;
     cout<<"Grade: "<<s[i].GP<<endl;
     if (s[i].passed)
