@@ -3,6 +3,8 @@
         "*.ejs": "html",
         "*.tcc": "cpp",
         "string": "cpp",
-        "istream": "cpp"
+        "istream": "cpp",
+        "iostream": "cpp",
+        "typeinfo": "cpp"
     }
 }
