@@ -2,13 +2,17 @@
 using namespace std;
 
 struct user{
-string name;
+string first_name;
+string middle_name;
+string last_name;
 int units;
-float charge;
+int charge;
 };
 
 void displayCharges(struct user u[],int s){
 	float un;
+
+	cout<<endl<<"Displaying calculated charges for "<<s<<" users..."<<endl;
 	for(int i=0;i<s;i++){
 		un=u[i].units;
 		if(un<100){
@@ -22,7 +26,8 @@ void displayCharges(struct user u[],int s){
 		}
 		
 		cout<<endl;
-		cout<<"Name: "<<u[i].name<<endl;
+		cout<<"Name: "<<u[i].first_name<<" "<<u[i].middle_name<<" "<<u[i].last_name<<endl;
+		cout<<"Units consumed: "<<u[i].units<<endl;
 		cout<<"Charge: "<<u[i].charge<<endl;	
 	}
 
@@ -38,9 +43,11 @@ int main(){
 	struct user u[s];
 	
 	for(int i=0;i<s;i++){
-	
-	cout<<"Enter name and units consumed for user "<<i+1<<":"<<endl;
-	cin>>u[i].name>>u[i].units;
+	cout<<endl<<"Enter details of user "<<i+1<<":"<<endl;
+	cout<<"Enter full name: ";
+	cin>>u[i].first_name>>u[i].middle_name>>u[i].last_name;
+	cout<<"Enter number of units consumed: ";
+	cin>>u[i].units;
 	
 	}
 	
