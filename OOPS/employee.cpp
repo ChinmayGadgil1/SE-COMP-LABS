@@ -67,7 +67,7 @@ cin>>n;
 struct employeeRecord emp[n];
 
 for(int i=0;i<n;i++){
-cout<<"Enter id of employee "<<i+1<<": ";
+cout<<endl<<"Enter id of employee "<<i+1<<": ";
 cin>>emp[i].id;
 cout<<"Enter full name of employee "<<i+1<<": ";
 cin>>emp[i].first_name>>emp[i].middle_name>>emp[i].last_name;
