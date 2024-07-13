@@ -1,2 +1,7 @@
 //.exe files
 *.exe
+
+
+//tempcoderunner files
+tempCodeRunnerFile.c 
+tempCodeRunnerFile.cpp
