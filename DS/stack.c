@@ -6,8 +6,7 @@
 int stackArr[MAX];
 int top = -1;
 
-char infix[20] = "A+B-C";
-char postfix[20];
+char postfix[MAX];
 
 int isFull()
 {
@@ -85,7 +84,7 @@ int in_symbol_priority(char a)
     }
 }
 
-void infix_to_postfix()
+void infix_to_postfix(const char* infix)
 {
     int i, p = 0;
     char symbol, next;
@@ -132,7 +131,10 @@ void infix_to_postfix()
 
 int main()
 {
-    infix_to_postfix();
-    printf("%s\n", postfix);
+    char infix[20];
+    printf("Enter infix expression:\n");
+    gets(infix);
+    infix_to_postfix(infix);
+    printf("Postfix Expression:\n%s",postfix);
     return 0;
 }
