@@ -5,6 +5,9 @@
         "string": "cpp",
         "istream": "cpp",
         "iostream": "cpp",
-        "typeinfo": "cpp"
+        "typeinfo": "cpp",
+        "array": "c",
+        "initializer_list": "c",
+        "utility": "c"
     }
 }
