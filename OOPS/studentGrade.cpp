@@ -25,18 +25,6 @@ char calculateGrade(int marks) {
     }
 }
 
-int gradeToPoints(char grade) {
-    switch (grade) {
-        case 'O': return 10;
-        case 'A': return 9;
-        case 'B': return 8;
-        case 'C': return 7;
-        case 'D': return 6;
-        case 'F': return 0;
-        default: return 0;
-    }
-}
-
 void inputStudentData(Student students[], int index) {
     cin.ignore();
     cout << "\nEnter student's details for Student " << index + 1 << ":" << endl; 
