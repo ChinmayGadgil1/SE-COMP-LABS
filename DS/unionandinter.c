@@ -16,7 +16,6 @@ void displayList(struct node *start)
     }
     struct node *p = start;
 
-    printf("\nYour list:\n");
     while (p != NULL)
     {
         printf("%d ", p->info);
@@ -167,13 +166,17 @@ int main()
     s1 = createList(s1);
     s2 = createList(s2);
 
+    
     displayList(s1);
+    printf("\n");
     displayList(s2);
 
     struct node *intersection = intersectList(s1, s2);
+    printf("\nIntersection:\n");
     displayList(intersection);
 
     struct node *unionOfList = unionList(s1, s2);
+    printf("\nunion:\n");
     displayList(unionOfList);
 
    
