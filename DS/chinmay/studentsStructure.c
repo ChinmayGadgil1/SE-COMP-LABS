@@ -103,22 +103,22 @@ void inputStudentData(struct Student *student) {
     student->CGPA = calculateCGPA(student);
 }
 
-void displayStudentData(struct Student *student, int numSubjects) {
+void displayStudentData(struct Student student) {
     printf("\nStudent Information:\n");
-    printf("Name: %s %s %s\n", student->fullName.firstName, student->fullName.middleName, student->fullName.lastName);
-    printf("Roll No: %d\n", student->rollNumber);
+    printf("Name: %s %s %s\n", student.fullName.firstName, student.fullName.middleName, student.fullName.lastName);
+    printf("Roll No: %d\n", student.rollNumber);
 
     for (int sem = 0; sem < 2; sem++) {
         printf("\nSemester %d:\n", sem + 1);
         printf("%-15s%-10s%-10s%-10s\n", "Subject Code", "Marks", "Grade", "Credits");
         printf("-----------------------------------------\n");
-        for (int i = 0; i < numSubjects; i++) {
-            printf("%-15s%-10d%-10s%-10d\n", student->semesters[sem].subjects[i].subjectCode, student->semesters[sem].subjects[i].marks, student->semesters[sem].subjects[i].grade, student->semesters[sem].subjects[i].credits);
+        for (int i = 0; i < 4; i++) {
+            printf("%-15s%-10d%-10s%-10d\n", student.semesters[sem].subjects[i].subjectCode, student.semesters[sem].subjects[i].marks, student.semesters[sem].subjects[i].grade, student.semesters[sem].subjects[i].credits);
         }
-        printf("SGPA: %.2f\n", student->semesters[sem].SGPA);
+        printf("SGPA: %.2f\n", student.semesters[sem].SGPA);
     }
 
-    printf("\nCGPA: %.2f\n", student->CGPA);
+    printf("\nCGPA: %.2f\n", student.CGPA);
 }
 
 void displayMenu() {
@@ -126,34 +126,25 @@ void displayMenu() {
 }
 
 int main() {
-    int maxStudents;
-    printf("Enter number of students: ");
-    scanf("%d", &maxStudents);
-    struct Student students[maxStudents];
+    
+    struct Student student;
     int numStudents = 0;
     int choice;
 
     while (1) {
         printf("\nMenu:\n");
         printf("1. Add student data\n");
-        printf("2. Display all students\n");
+        printf("2. Display Data\n");
         printf("3. Quit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
         switch (choice) {
             case 1:
-                if (numStudents < maxStudents) {
-                    inputStudentData(&students[numStudents]);
-                    numStudents++;
-                } else {
-                    printf("Maximum number of students reached.\n");
-                }
+                    inputStudentData(&student);
                 break;
             case 2:
-                for (int i = 0; i < numStudents; i++) {
-                    displayStudentData(&students[i], 4);
-                }
+                    displayStudentData(student);
                 break;
             case 3:
                 printf("Exiting...\n");
