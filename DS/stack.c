@@ -44,7 +44,7 @@ int pop()
 
 int isWhiteSpace(char a)
 {
-    return a == ' ';
+    return a == ' ' || a == '\t';
 }
 
 int in_stack_priority(char a)
