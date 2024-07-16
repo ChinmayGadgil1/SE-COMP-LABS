@@ -31,8 +31,7 @@ void inputStudentData(Student students[], int index) {
     cout << "Enter student's name: ";
     getline(cin, students[index].name);
 
-    cout << "Enter student's roll number: ";
-    cin >> students[index].rollNumber;
+    students[index].rollNumber=index+1;
 
     cout << "Enter subjects and marks for semester:" << endl;
     cout << "Enter math marks: ";
@@ -55,7 +54,7 @@ void displayStudentData(Student students[], int size) {
         cout << "Name: " << students[i].name << endl;
         cout << "Roll No: " << students[i].rollNumber << endl;
         cout << "Subject  Marks  Grade Status" << endl;
-        cout << "-------------------" << endl;
+        cout << "----------------------------" << endl;
 
         for (int j = 0; j < 4; j++) {
             
@@ -99,9 +98,6 @@ int main() {
                     {   
                     inputStudentData(students, i);
                     }
-                    
-            
-
                 break;
             case 2:
                 displayStudentData(students, size);
