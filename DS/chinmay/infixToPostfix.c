@@ -8,13 +8,11 @@ int top = -1;
 
 char postfix[MAX];
 
-int isFull()
-{
+int isFull(){
     return (top == MAX - 1);
 }
 
-int isEmpty()
-{
+int isEmpty(){
     return (top == -1);
 }
 
