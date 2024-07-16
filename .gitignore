@@ -5,3 +5,6 @@
 //tempcoderunner files
 tempCodeRunnerFile.c 
 tempCodeRunnerFile.cpp
+
+//.vscode
+*.vscode
