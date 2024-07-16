@@ -1,9 +1,9 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#define MAX 20
+#define MAX 30
 
-int stackArr[MAX];
+char stackArr[MAX];
 int top = -1;
 
 char postfix[MAX];
@@ -16,6 +16,21 @@ int isFull()
 int isEmpty()
 {
     return (top == -1);
+}
+
+void display(){
+    if (isEmpty()) 
+    {
+        printf("Empty");
+    }
+    else{
+        for (int i = 0; i <= top; i++)
+        {
+            printf("%c", stackArr[i]);
+        }
+        
+    }
+    
 }
 
 void push(int x)
@@ -39,6 +54,19 @@ int pop()
     int item = stackArr[top];
     top--;
     return item;
+}
+
+int peek(){
+    if (isEmpty())
+    {
+        printf("Empty");
+    }
+    else
+    {
+        return stackArr[top];
+    }
+    
+    
 }
 
 int isWhiteSpace(char a)
@@ -84,14 +112,21 @@ int in_symbol_priority(char a)
     }
 }
 
+
 void infix_to_postfix(const char* infix)
 {
     int i, p = 0;
     char symbol, next;
+    char stack[MAX];
+    printf("\nSymbol\t\tStack\t\tPostfix Array\n");
+    printf("---------------------------------------------\n");
     for (i = 0; i < strlen(infix); i++)
     {
         symbol = infix[i];
         if (!isWhiteSpace(symbol))
+       
+
+        
         {
             switch (symbol)
             {
@@ -99,9 +134,11 @@ void infix_to_postfix(const char* infix)
                 push(symbol);
                 break;
             case ')':
-                while ((next = pop()) != '(')
+                next = pop();
+                while (next != '(')
                 {
                     postfix[p++] = next;
+                    next=pop();
                 }
                 break;
             case '+':
@@ -119,7 +156,12 @@ void infix_to_postfix(const char* infix)
             default:
                 postfix[p++] = symbol;
             }
+            
+            printf("%c\t\t",symbol);
+            display();
+            printf("\t\t%s\n",postfix);
         }
+        
     }
 
     while (!isEmpty())
@@ -127,6 +169,7 @@ void infix_to_postfix(const char* infix)
         postfix[p++] = pop();
     }
     postfix[p] = '\0';
+    printf(" \t\t%s\t\t%s\n","Empty",postfix);
 }
 
 int main()
@@ -135,6 +178,7 @@ int main()
     printf("Enter infix expression:\n");
     gets(infix);
     infix_to_postfix(infix);
-    printf("Postfix Expression:\n%s",postfix);
+
+    printf("\nPostfix Expression:\n%s",postfix);
     return 0;
 }
