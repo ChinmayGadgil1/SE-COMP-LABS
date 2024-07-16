@@ -1,12 +1,13 @@
 #include <iostream>
-#include <string>
+#include <iomanip>
 using namespace std;
 
-class Student {
-public:
+struct Student {
     int rollNumber;
     string name;
     int marks[4];
+    int gp[4];
+    double sgpa;
 };
 
 char calculateGrade(int marks) {
@@ -24,8 +25,32 @@ char calculateGrade(int marks) {
         return 'F';
     }
 }
+int calculateGradePoints(int marks) {
+    if (marks >= 85 && marks<=100) {
+        return 10;
+    } else if (marks >= 75) {
+        return 9;
+    } else if (marks >= 65) {
+        return 8;
+    } else if (marks >= 55) {
+        return 7;
+    } else if (marks >= 50) {
+        return 6;
+    } 
+    else if (marks>=45)
+    {
+        return 5;
+    }
+    else if (marks>=40)
+    {
+        return 4;
+    }
+    else {
+        return 0;
+    }
+}
 
-void inputStudentData(Student students[], int index) {
+void inputStudentData(struct Student students[], int index) {
     cin.ignore();
     cout << "\nEnter student's details for Student " << index + 1 << ":" << endl; 
     cout << "Enter student's name: ";
@@ -42,13 +67,19 @@ void inputStudentData(Student students[], int index) {
     cin >> students[index].marks[2];
     cout << "Enter Prog. marks: ";
     cin >> students[index].marks[3];
+    students[index].gp[0]=calculateGradePoints(students[index].marks[0]);
+    students[index].gp[1]=calculateGradePoints(students[index].marks[1]);
+    students[index].gp[2]=calculateGradePoints(students[index].marks[2]);
+    students[index].gp[3]=calculateGradePoints(students[index].marks[3]);
+
+    students[index].sgpa=(double)(students[index].gp[0]*4+students[index].gp[1]*3+students[index].gp[2]*3+students[index].gp[3]*4)/13.0;
 }
 
 string passes(int marks) {
     return marks < 40 ? "Fail" : "Pass";
 }
 
-void displayStudentData(Student students[], int size) {
+void displayStudentData(struct Student students[], int size) {
     for (int i = 0; i < size; i++) {
         cout << "\nStudent Information:\n";
         cout << "Name: " << students[i].name << endl;
@@ -73,7 +104,9 @@ void displayStudentData(Student students[], int size) {
             cout << students[i].marks[j] << "     " 
                  << calculateGrade(students[i].marks[j]) << "     " 
                  << passes(students[i].marks[j]) << endl;
+
         }
+        cout<<"SGPA: "<<setprecision(3)<<students[i].sgpa<<"\n";
     }
 }
 
@@ -81,7 +114,7 @@ int main() {
     int size;
     cout << "Enter number of students: ";
     cin >> size;
-    Student students[size];
+    struct Student students[size];
     int choice;
 
     while (1) {
