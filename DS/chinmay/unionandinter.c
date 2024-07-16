@@ -96,18 +96,6 @@ struct node *differenceList(struct node *L1, struct node *L2) {
         }
     }
 
-    for (p = L2; p != NULL; p = p->link) {
-        found = 0;
-        for (q = L1; q != NULL; q = q->link) {
-            if (p->info == q->info) {
-                found = 1;
-                break;
-            }
-        }
-        if (!found) {
-            result = add(result, p->info);
-        }
-    }
 
     return result;
 }
