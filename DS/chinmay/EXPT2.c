@@ -114,7 +114,7 @@ void displayList(struct node* start){
     }
     struct node *p=start;
 
-    printf("Your list:\n");
+    printf("\nYour list:\n");
     while (p!=NULL)
     {
         printf("%d ",p->info);
@@ -131,14 +131,14 @@ void countNodes(struct node* start){
         count++;
         p=p->link;
     }
-    printf("Number of Node=%d\n",count);
+    printf("\nNumber of Node=%d\n",count);
     return;
 }
 
 void searchList(struct node* start,int item){
     if (start==NULL)
     {
-        printf("List is Empty, Element not found\n");
+        printf("\nList is Empty, Element not found\n");
 
     }
     int pos=1;
@@ -154,7 +154,7 @@ void searchList(struct node* start,int item){
             p=p->link;
     }
     
-    printf("Element not found\n");
+    printf("\nElement not found\n");
 
 }
 
@@ -225,7 +225,7 @@ struct node* addAfter(struct node* start,int data,int item){
         }
         p=p->link;
     }
-    printf("Item not found\n");
+    printf("\nItem not found\n");
     return start;
 }
 
@@ -233,7 +233,7 @@ struct node * addBefore(struct node* start,int data,int item){
     struct node* tmp,*p=start;
     if (start==NULL)
     {
-        printf("List is Empty\n");
+        printf("\nList is Empty\n");
         return start;
     }
     if (start->info==item){
@@ -254,7 +254,7 @@ struct node * addBefore(struct node* start,int data,int item){
         }
         p=p->link;
     }
-    printf("Item not found\n");
+    printf("\nItem not found\n");
     return start;
 }
 
@@ -272,7 +272,7 @@ struct node* addAtPos(struct node* start,int data,int pos){
     }
 
     if(p==NULL){
-        printf("There are less elements than position\n");
+        printf("\nThere are less elements than position\n");
         return start;
     }
     tmp=(struct node*)malloc(sizeof(struct node));
@@ -286,7 +286,7 @@ struct node* deleteNode(struct node* start,int data){
     struct node* tmp,*p=start;
 
     if(start==NULL){
-        printf("List is empty\n");
+        printf("\nList is empty\n");
         return start;
     }
     if(start->info==data){
@@ -305,7 +305,7 @@ struct node* deleteNode(struct node* start,int data){
         }
         p=p->link;
     }
-    printf("data not found\n");
+    printf("\ndata not found\n");
     return start;
 }
 
