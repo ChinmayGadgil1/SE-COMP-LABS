@@ -75,13 +75,8 @@ float calculateCGPA(struct Student *student) {
 }
 
 void inputStudentData(struct Student *student) {
-    printf("Enter student's first name: ");
-    scanf("%19s", student->fullName.firstName);
-    printf("Enter student's middle name: ");
-    scanf("%19s", student->fullName.middleName);
-    printf("Enter student's last name: ");
-    scanf("%19s", student->fullName.lastName);
-
+    printf("Enter student's full name: ");
+    scanf("%19s%19s%19s", student->fullName.firstName,student->fullName.middleName,student->fullName.lastName);
     printf("Enter student's roll number: ");
     scanf("%d", &student->rollNumber);
 
