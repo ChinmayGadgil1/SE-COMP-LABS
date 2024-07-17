@@ -1,13 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX 30
+#define MAX 4
 
-char stackArr[MAX];
-
+int stackArr[MAX];
 int top = -1;
-
-char postfix[MAX];
 
 int isFull()
 {
@@ -29,6 +26,7 @@ void push(int x)
     }
     top++;
     stackArr[top] = x;
+    printf("push(%d)\n", x);  // Added printf statement
 }
 
 int pop()
@@ -40,6 +38,7 @@ int pop()
     }
     int item = stackArr[top];
     top--;
+    printf("pop()\n");  // Added printf statement
     return item;
 }
 
@@ -47,7 +46,7 @@ int peek()
 {
     if (isEmpty())
     {
-        printf("Empty");
+        printf("Empty\n");
     }
     else
     {
@@ -57,22 +56,45 @@ int peek()
 
 void display()
 {
-    if (isEmpty())
+    printf("StackArr:  ");
+    for (int i = 0; i <= top; i++)
     {
-        printf("Empty");
+        printf("%d ", stackArr[i]);
     }
-    else
-    {
-        for (int i = 0; i <= top; i++)
-        {
-            printf("%c", stackArr[i]);
-        }
-    }
+    printf("\ntop=%d\n\n",top);
 }
 
 int main()
 {
-   
+    push(74);
+    display();
+    push(27);
+    display();
+    push(64);
+    display();
+    push(20);
+    display();
+    pop();
+    display();
+    pop();
+    display();
+    pop();
+    display();
+    push(41);
+    display();
+    push(109);
+    display();
+    push(84);
+    display();
+    pop();
+    display();
+    push(102);
+    display();
+    pop();
+    display();
+    pop();
+    display();
+    pop();
+    display();
     return 0;
 }
-

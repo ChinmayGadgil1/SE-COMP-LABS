@@ -1,88 +1,52 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
+#include <string.h>
 #include <math.h>
+
 #define MAX 30
 
 char stackArr[MAX];
-int stackArrEval[MAX];
-
 int top = -1;
-
 char postfix[MAX];
 
 int isFull()
 {
-    return (top == MAX - 1);
+    return top == MAX - 1;
 }
 
 int isEmpty()
 {
-    return (top == -1);
+    return top == -1;
 }
 
-void display()
-{
-    if (isEmpty())
-    {
-        printf("Empty");
-    }
-    else
-    {
-        for (int i = 0; i <= top; i++)
-        {
-            printf("%c", stackArr[i]);
-        }
-    }
-}
-void displayEval()
-{
-    if (isEmpty())
-    {
-        printf("Empty");
-    }
-    else
-    {
-        for (int i = 0; i <= top; i++)
-        {
-            printf("%d,", stackArr[i]);
-        }
-    }
-}
-
-void push(int x)
+void push(char x)
 {
     if (isFull())
     {
         printf("Stack Overflow\n");
-        return;
+        exit(1);
     }
-    top++;
-    stackArr[top] = x;
+    stackArr[++top] = x;
 }
 
-int pop()
+char pop()
 {
     if (isEmpty())
     {
         printf("Stack Underflow\n");
         exit(1);
     }
-    int item = stackArr[top];
-    top--;
-    return item;
+    return stackArr[top--];
 }
 
-int peek()
+char peek()
 {
     if (isEmpty())
     {
-        printf("Empty");
+        printf("Stack is Empty\n");
+        exit(1);
     }
-    else
-    {
-        return stackArr[top];
-    }
+    return stackArr[top];
 }
 
 int isWhiteSpace(char a)
@@ -131,15 +95,13 @@ int in_symbol_priority(char a)
 void infix_to_postfix(const char *infix)
 {
     int i, p = 0;
-    char symbol, next;
-    char stack[MAX];
+    char symbol;
     printf("\nSymbol\t\tStack\t\tPostfix Array\n");
     printf("---------------------------------------------\n");
     for (i = 0; i < strlen(infix); i++)
     {
         symbol = infix[i];
         if (!isWhiteSpace(symbol))
-
         {
             switch (symbol)
             {
@@ -147,12 +109,11 @@ void infix_to_postfix(const char *infix)
                 push(symbol);
                 break;
             case ')':
-                next = pop();
-                while (next != '(')
+                while (peek() != '(')
                 {
-                    postfix[p++] = next;
-                    next = pop();
+                    postfix[p++] = pop();
                 }
+                pop(); // Remove '(' from stack
                 break;
             case '+':
             case '-':
@@ -160,7 +121,7 @@ void infix_to_postfix(const char *infix)
             case '*':
             case '%':
             case '^':
-                while (!isEmpty() && in_stack_priority(stackArr[top]) >= in_symbol_priority(symbol))
+                while (!isEmpty() && in_stack_priority(peek()) >= in_symbol_priority(symbol))
                 {
                     postfix[p++] = pop();
                 }
@@ -171,7 +132,10 @@ void infix_to_postfix(const char *infix)
             }
 
             printf("%c\t\t", symbol);
-            display();
+            for (int j = 0; j <= top; j++)
+            {
+                printf("%c", stackArr[j]);
+            }
             printf("\t\t%s\n", postfix);
         }
     }
@@ -193,20 +157,17 @@ long int postfixEval(const char postfix[])
 
     for (int i = 0; i < strlen(postfix); i++)
     {
-        if (!isWhiteSpace(postfix[i]))
+        char symbol = postfix[i];
+        if (!isWhiteSpace(symbol))
         {
-
-
-           
-            if (postfix[i] >= '0' && postfix[i] <= '9')
-                push(postfix[i] - '0');
-
+            if (symbol >= '0' && symbol <= '9')
+                push(symbol - '0');
             else
             {
                 a = pop();
                 b = pop();
 
-                switch (postfix[i])
+                switch (symbol)
                 {
                 case '+':
                     tmp = b + a;
@@ -224,15 +185,19 @@ long int postfixEval(const char postfix[])
                     tmp = b % a;
                     break;
                 case '^':
-                    tmp = pow(b, a);
+                    tmp = (int)pow(b, a);
                     break;
                 default:
                     break;
                 }
                 push(tmp);
             }
-             printf("%c\t\t", postfix[i]);
-            displayEval();
+
+            printf("%c\t\t", symbol);
+            for (int j = 0; j <= top; j++)
+            {
+                printf("%d,", stackArr[j]);
+            }
             printf("\n");
         }
     }
@@ -244,12 +209,11 @@ long int postfixEval(const char postfix[])
 int main()
 {
     char infix[20];
-    char postfixString[20];
     long int result;
     int choice;
     while (1)
     {
-        printf("\n1. Infix To Postfix\n2. Postfix Evaluation\n3.Quit\n");
+        printf("\n1. Infix To Postfix\n2. Postfix Evaluation\n3. Quit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -257,23 +221,22 @@ int main()
         {
         case 1:
             printf("\nEnter infix expression:\n");
-      
-            while (getchar() != '\n');
+            while (getchar() != '\n')
+                ;
             fgets(infix, sizeof(infix), stdin);
-            infix[strcspn(infix, "\n")] = '\0';  
+            infix[strcspn(infix, "\n")] = '\0';
             infix_to_postfix(infix);
             printf("\nPostfix expression: %s\n", postfix);
             break;
         case 2:
             printf("\nEnter the postfix expression:\n");
-            
-            while (getchar() != '\n');
-            fgets(postfixString, sizeof(postfixString), stdin);
-            postfixString[strcspn(postfixString, "\n")] = '\0';  
-            result = postfixEval(postfixString);
+            while (getchar() != '\n')
+                ;
+            fgets(postfix, sizeof(postfix), stdin);
+            postfix[strcspn(postfix, "\n")] = '\0';
+            result = postfixEval(postfix);
             printf("\nResult: %ld\n\n", result);
             break;
-
         case 3:
             printf("\n\nExiting...\n\n");
             exit(1);
@@ -283,4 +246,3 @@ int main()
     }
     return 0;
 }
-
