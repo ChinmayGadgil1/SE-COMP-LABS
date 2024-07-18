@@ -114,7 +114,7 @@ int main() {
     int size;
     cout << "Enter number of students: ";
     cin >> size;
-    struct Student students[size];
+    struct Student student=new Student[size]
     int choice;
 
     while (1) {
