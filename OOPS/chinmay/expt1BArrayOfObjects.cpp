@@ -182,7 +182,7 @@ int main()
         else if (choice == 3)
         {
             cout << "Exiting..." << endl;
-            delete[] students;  // Free allocated memory
+            delete[] students; 
             return 0;
         }
         else
