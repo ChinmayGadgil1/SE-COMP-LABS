@@ -11,7 +11,7 @@ void displayList(struct node *start)
 {
     if (start == NULL)
     {
-        printf("List Empty\n");
+        printf("Empty\n");
         return;
     }
     struct node *p = start;
@@ -188,6 +188,7 @@ int main()
     {
         printf("\nChoose an operation:\n");
         printf("1. Union\n2. Intersection\n3. Difference\n4. Exit\n");
+        printf("Enter your choice=>  ");
         scanf("%d", &choice);
 
         switch (choice)
@@ -198,6 +199,7 @@ int main()
             printf("List 2: ");
             displayList(s2);
             struct node *unionOfList = unionList(s1, s2);
+            unionOfList = sortList(unionOfList);
             printf("Union:\n");
             displayList(unionOfList);
             break;
@@ -207,6 +209,7 @@ int main()
             printf("List 2: ");
             displayList(s2);
             struct node *intersection = intersectList(s1, s2);
+            intersection=sortList(intersection);
             printf("Intersection:\n");
             displayList(intersection);
             break;
@@ -216,6 +219,7 @@ int main()
             printf("List 2: ");
             displayList(s2);
             struct node *difference = differenceList(s1, s2);
+            difference = sortList(difference);
             printf("Difference:\n");
             displayList(difference);
             break;
