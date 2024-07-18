@@ -100,18 +100,19 @@ void inputStudentData(struct Student *student) {
 
 void displayStudentData(struct Student student) {
     printf("\nStudent Information:\n");
-    printf("Name: %s %s %s\n", student.fullName.firstName, student.fullName.middleName, student.fullName.lastName);
+    printf("\nName: %s %s %s\n", student.fullName.firstName, student.fullName.middleName, student.fullName.lastName);
     printf("Roll No: %d\n", student.rollNumber);
 
-    for (int sem = 0; sem < 2; sem++) {
-        printf("\nSemester %d:\n", sem + 1);
-        printf("%-15s%-10s%-10s%-10s\n", "Subject Code", "Marks", "Grade", "Credits");
-        printf("-----------------------------------------\n");
+        printf("\n\t\tSemester 1\t\t\t\t\tSemester 2\n");
+        printf("%-15s%-10s%-10s%-10s", "Subject Code", "Marks", "Grade", "Credits");
+        printf("\t%-15s%-10s%-10s%-10s\n", "Subject Code", "Marks", "Grade", "Credits");
+        printf("------------------------------------------\t------------------------------------------\n");
         for (int i = 0; i < 4; i++) {
-            printf("%-15s%-10d%-10s%-10d\n", student.semesters[sem].subjects[i].subjectCode, student.semesters[sem].subjects[i].marks, student.semesters[sem].subjects[i].grade, student.semesters[sem].subjects[i].credits);
+            printf("%-15s%-10d%-10s%-10d", student.semesters[0].subjects[i].subjectCode, student.semesters[0].subjects[i].marks, student.semesters[0].subjects[i].grade, student.semesters[0].subjects[i].credits);
+            printf("\t%-15s%-10d%-10s%-10d\n", student.semesters[1].subjects[i].subjectCode, student.semesters[1].subjects[i].marks, student.semesters[1].subjects[i].grade, student.semesters[1].subjects[i].credits);
         }
-        printf("SGPA: %.2f\n", student.semesters[sem].SGPA);
-    }
+        printf("------------------------------------------\t------------------------------------------\n");
+        printf("SGPA sem1: %.2f\t\t\t\t\tSGPA sem2 %.2f\n", student.semesters[0].SGPA,student.semesters[1].SGPA);
 
     printf("\nCGPA: %.2f\n", student.CGPA);
 }
