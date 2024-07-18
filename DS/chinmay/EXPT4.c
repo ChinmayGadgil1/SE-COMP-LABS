@@ -66,6 +66,8 @@ void display()
 
 int main()
 {
+    printf("\nInitially:\n");
+    display();
     push(74);
     display();
     push(27);

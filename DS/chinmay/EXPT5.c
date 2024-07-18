@@ -96,6 +96,7 @@ void infix_to_postfix(const char *infix)
 {
     int i, p = 0;
     char symbol;
+    top = -1; // Reset the stack for each run
     printf("\nSymbol\t\tStack\t\tPostfix Array\n");
     printf("---------------------------------------------\n");
     for (i = 0; i < strlen(infix); i++)
@@ -109,7 +110,7 @@ void infix_to_postfix(const char *infix)
                 push(symbol);
                 break;
             case ')':
-                while (peek() != '(')
+                while (!isEmpty() && peek() != '(')
                 {
                     postfix[p++] = pop();
                 }
@@ -142,7 +143,10 @@ void infix_to_postfix(const char *infix)
 
     while (!isEmpty())
     {
-        postfix[p++] = pop();
+        char topSymbol = pop();
+        if (topSymbol != '(') {
+            postfix[p++] = topSymbol;
+        }
     }
     postfix[p] = '\0';
     printf(" \t\t%s\t\t%s\n", "Empty", postfix);
@@ -208,7 +212,7 @@ long int postfixEval(const char postfix[])
 
 int main()
 {
-    char infix[20];
+    char infix[30];
     long int result;
     int choice;
     while (1)
@@ -225,8 +229,10 @@ int main()
                 ;
             fgets(infix, sizeof(infix), stdin);
             infix[strcspn(infix, "\n")] = '\0';
+            // scanf("%s",infix);
             infix_to_postfix(infix);
             printf("\nPostfix expression: %s\n", postfix);
+            top=-1;
             break;
         case 2:
             printf("\nEnter the postfix expression:\n");
@@ -236,6 +242,7 @@ int main()
             postfix[strcspn(postfix, "\n")] = '\0';
             result = postfixEval(postfix);
             printf("\nResult: %ld\n\n", result);
+            top=-1;
             break;
         case 3:
             printf("\n\nExiting...\n\n");
