@@ -5,7 +5,7 @@
 
 #define MAX 30
 
-char stackArr[MAX];
+int stackArr[MAX]; // Changed from char to int
 int top = -1;
 char postfix[MAX];
 
@@ -19,7 +19,7 @@ int isEmpty()
     return top == -1;
 }
 
-void push(char x)
+void push(int x) 
 {
     if (isFull())
     {
@@ -29,7 +29,7 @@ void push(char x)
     stackArr[++top] = x;
 }
 
-char pop()
+int pop() 
 {
     if (isEmpty())
     {
@@ -39,7 +39,7 @@ char pop()
     return stackArr[top--];
 }
 
-char peek()
+int peek()
 {
     if (isEmpty())
     {
@@ -96,7 +96,7 @@ void infix_to_postfix(const char *infix)
 {
     int i, p = 0;
     char symbol;
-    top = -1; // Reset the stack for each run
+    top = -1;
     printf("\nSymbol\t\tStack\t\tPostfix Array\n");
     printf("---------------------------------------------\n");
     for (i = 0; i < strlen(infix); i++)
@@ -114,7 +114,7 @@ void infix_to_postfix(const char *infix)
                 {
                     postfix[p++] = pop();
                 }
-                pop(); // Remove '(' from stack
+                pop(); 
                 break;
             case '+':
             case '-':
@@ -144,7 +144,8 @@ void infix_to_postfix(const char *infix)
     while (!isEmpty())
     {
         char topSymbol = pop();
-        if (topSymbol != '(') {
+        if (topSymbol != '(')
+        {
             postfix[p++] = topSymbol;
         }
     }
@@ -189,7 +190,7 @@ long int postfixEval(const char postfix[])
                     tmp = b % a;
                     break;
                 case '^':
-                    tmp = (int)pow(b, a);
+                    tmp = pow(b, a);
                     break;
                 default:
                     break;
@@ -229,10 +230,9 @@ int main()
                 ;
             fgets(infix, sizeof(infix), stdin);
             infix[strcspn(infix, "\n")] = '\0';
-            // scanf("%s",infix);
             infix_to_postfix(infix);
             printf("\nPostfix expression: %s\n", postfix);
-            top=-1;
+            top = -1;
             break;
         case 2:
             printf("\nEnter the postfix expression:\n");
@@ -242,7 +242,7 @@ int main()
             postfix[strcspn(postfix, "\n")] = '\0';
             result = postfixEval(postfix);
             printf("\nResult: %ld\n\n", result);
-            top=-1;
+            top = -1;
             break;
         case 3:
             printf("\n\nExiting...\n\n");
