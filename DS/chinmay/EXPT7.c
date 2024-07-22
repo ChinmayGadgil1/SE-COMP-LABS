@@ -60,32 +60,17 @@ int peek() {
     return cqueueArr[front];
 }
 
-void display(){
-    if (isEmpty())
-    {
+void display() {
+    if (isEmpty()) {
         printf("Circular Queue Empty\n");
         return;
     }
     int i = front;
-    if (front<=rear)
-    {
-        while (i<=rear)
-        {
-            printf("%d ",cqueueArr[i]);
-            i++;
-        }
-        
+    while (1) {
+        printf("%d ", cqueueArr[i]);
+        if (i == rear) break;
+        i = (i + 1) % MAX;
     }
-    else
-    {
-        while (i!=rear)
-        {
-            printf("%d ",cqueueArr[i]);
-            i=(i+1)%MAX;
-        }
-        printf("%d ",cqueueArr[i]);
-    }
-    
     printf("\n");
 }
 
