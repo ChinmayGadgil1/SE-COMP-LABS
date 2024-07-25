@@ -1,7 +1,9 @@
 #include <iostream>
 #include <iomanip>
+#include<vector>
 using namespace std;
 
+vector<string> x;
 class employee
 {
     double salary;
@@ -17,8 +19,28 @@ public:
 };
 void employee::input()
 {
-    cout << "\nEnter employee code: ";
+    label: cout << "\nEnter employee code: ";
     cin >> code;
+    bool seen=false;
+    for (int i = 0; i < x.size(); i++)
+    {
+        if (x[i]==code)
+        {
+            seen = true;
+            break;
+        }
+        
+    }
+    
+    if (seen==true) 
+    {
+        cout<<"\ncode Exists, enter again:\n";
+        goto label;
+    }
+    
+    x.push_back(code);
+    
+    
     cin.ignore();
     cout << "Enter employee name: ";
     getline(cin, name);
@@ -52,6 +74,8 @@ void employee::changeSal(double n)
     salary += n;
     salary >= 50000 ? isPromoted = true : isPromoted = false;
 }
+
+
 
 int main()
 {
