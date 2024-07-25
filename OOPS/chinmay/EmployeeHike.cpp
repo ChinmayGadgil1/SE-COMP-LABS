@@ -117,7 +117,8 @@ int main()
             }
 
         case 3:
-            cout << "Code\t\t\t" << "Name\t\t\t\t" << "Salary\t\t" << "Status\t\t\t\n";
+            cout << "\nCode\t\t\t" << "Name\t\t\t\t" << "Salary\t\t" << "Status\t\t\t\n";
+            cout<<"-------------------------------------------------------------------------------\n";
             for (int i = 0; i < n; i++)
             {
                 emp[i].getdata();
