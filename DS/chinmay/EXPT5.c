@@ -66,7 +66,7 @@ int in_stack_priority(char a)
     case '*':
         return 2;
     case '^':
-        return 4;
+        return 3;
     case '(':
         return 0;
     default:
@@ -86,7 +86,7 @@ int in_symbol_priority(char a)
     case '*':
         return 2;
     case '^':
-        return 3;
+        return 4;
     default:
         return 0;
     }
