@@ -16,7 +16,7 @@ void push(int item){
     {
         printf("Stack Overflow\n");
         return;
-    }\
+    }
     tmp->info=item;
     tmp->link=top;
     top=tmp;
