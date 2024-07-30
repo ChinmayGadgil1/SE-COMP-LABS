@@ -4,62 +4,118 @@
 #include<string.h>
 
 struct node{
-    int info;
+    char info;
     struct node* link;
 };
 
 struct node* top=NULL;
 
-void push(int item){
+// void display(){
+//     if (top==NULL)
+//     {
+//         printf("Stack Empty\n");
+//         return;
+//     }
+//     for (struct node* p = top; p !=NULL; p=p->link)
+//     {
+//         printf("%c ",p->info);
+
+//     }
+//     printf("\n");
+    
+// }
+
+void display(){
+    if (top==NULL)
+
+    {
+    printf("            ---------   \n");
+        printf("               start|%8s|\n","NULL");
+        printf("                     ---------   ");
+        return;
+    }
+
+    printf("            ---------   ");
+
+    for (struct node* p = top; p !=NULL; p=p->link)
+    {
+        printf(" ---------------      ");
+    }
+    printf("\n");
+    printf("               start|%8u|-->",top);
+
+    for (struct node* p = top; p !=NULL; p=p->link)
+    {
+        if (p->link!=NULL)
+        {
+            printf("| '%c' ||%u|---> ",p->info,p->link);
+        }
+        else{
+            printf("| '%c' ||%8s| ",p->info,"NULL");
+
+        }
+
+    }
+    printf("\n");
+
+        printf("                     ---------   ");
+
+    for (struct node* p = top; p !=NULL; p=p->link)
+    {
+        printf(" ---------------      ");
+    }
+    printf("\n");
+    printf("                   ");
+
+    printf("                   ");
+    for (struct node* p = top; p !=NULL; p=p->link)
+    {
+        printf("%8u               ",p);
+    }
+    printf("\n\n");
+    
+}
+
+void push(char item){
     struct node* tmp;
     tmp=(struct node *)malloc(sizeof(struct node));
     if (tmp==NULL)
     {
         printf("Stack Overflow\n");
         return;
-    }\
+    }
+
     tmp->info=item;
     tmp->link=top;
     top=tmp;
+    
 }
 
-int pop(){
+char pop(){
     if (top==NULL)
     {
         printf("Stack Underflow\n");
-        return INT_MIN;
+        exit(1);
     }
 
-    int item=top->info;
+    char item=top->info;
     struct node*p=top;
     top=top->link;
     free(p);
+    
     return item;
 }
 
-int peek(){
+char peek(){
     if (top==NULL)
     {
         printf("Stack Underflow\n");
-        return INT_MIN;
+        exit(1);
     }
     return top->info;
 }
 
-void display(){
-    if (top==NULL)
-    {
-        printf("Stack Empty\n");
-        return;
-    }
-    for (struct node* p = top; p !=NULL; p=p->link)
-    {
-        printf("%d ",p->info);
 
-    }
-    printf("\n");
-    
-}
 
 int match(char a,char b){
     if (a=='(' && b==')' || a=='[' && b==']' || a=='{' && b=='}')
@@ -70,11 +126,15 @@ int match(char a,char b){
 }
 
 int validParentheses(const char input[]){
+    
     for (int i = 0; i < strlen(input); i++)
     {
         if (input[i]=='('|| input[i]=='['|| input[i]=='{')
         {
             push(input[i]);
+            printf("push('%c')",input[i]);
+            display();
+            
         }
         else if (input[i]==')' || input[i]==']' || input[i]=='}')
         {
@@ -82,11 +142,13 @@ int validParentheses(const char input[]){
             {
                 return 0;
             }
-            if (!match(top->info,input[i]))
+            if (!match(peek(),input[i]))
             {
                 return 0;
             }
             pop();
+            printf("pop()    ");
+            display();
         }
     }
     if (top==NULL)
@@ -103,11 +165,11 @@ printf("Enter the expression: ");
 scanf("%s",input);
 if (validParentheses(input))
 {
-    printf("Valid Parentheses\n");
+    printf("\nResult=> Valid Parentheses\n\n");
 }
 else
 {
-    printf("Invalid Parentheses\n");
+    printf("\nResult=> Invalid Parentheses\n\n");
 }
 
 return 0;

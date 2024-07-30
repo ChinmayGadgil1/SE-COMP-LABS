@@ -51,10 +51,42 @@ void display(){
         printf("Stack Empty\n");
         return;
     }
+
+    printf("     ----------   ");
+
     for (struct node* p = top; p !=NULL; p=p->link)
     {
-        printf("%d ",p->info);
+        printf(" -------------      ");
+    }
+    printf("\n");
+    printf("start|%8u|-->",top);
 
+    for (struct node* p = top; p !=NULL; p=p->link)
+    {
+        if (p->link!=NULL)
+        {
+            printf("|%3d||%u|---> ",p->info,p->link);
+        }
+        else{
+            printf("|%3d||%8s| ",p->info,"NULL");
+
+        }
+
+    }
+    printf("\n");
+
+        printf("     ----------   ");
+
+    for (struct node* p = top; p !=NULL; p=p->link)
+    {
+        printf(" -------------      ");
+    }
+    printf("\n");
+    printf("                   ");
+
+    for (struct node* p = top; p !=NULL; p=p->link)
+    {
+        printf("   %8u         ",p);
     }
     printf("\n");
     
