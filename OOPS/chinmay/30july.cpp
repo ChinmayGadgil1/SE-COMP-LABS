@@ -16,29 +16,26 @@ public:
 
     void display()
     {
-        cout << "\nfirst=" << first << "  " << "second=" << second << "\n";
+        cout << "\nfirst = " << first << "  " << "second = " << second << "\n";
     }
 
-    
     friend void swapValues(Pair<T1> &p)
     {
-        T1 tmp = p.first;
-        p.first = p.second;
-        p.second = tmp;
+        swap(p.first, p.second);
     }
 };
 
-int main()
+int main()  
 {
     cout << "\nWhat type of Pair do you need?\n";
-    cout << "1.Integer\n2.Character\n3.Float\n";
+    cout << "1.Integer\n2.Character\n3.Float\n4.String\n";
     int choice = 0;
     cout << "Enter your choice: ";
     cin >> choice;
     int a, b;
     char e, f;
     float c, d;
-
+    string g,h;
     switch (choice)
     {
     case 1:
@@ -80,12 +77,25 @@ int main()
         p3.display();
         break;
     }
+    case 4:
+    {
+        Pair<string> p3;
+        cout << "Enter 2 strings: ";
+        cin >> g >> h;
+        p3.input(g, h);
+        cout << "\nBefore Swapping:";
+        p3.display();
+        cout << "\nAfter Swapping:";
+        swapValues(p3);
+        p3.display();
+        break;
+    }
     default:
         cout << "Invalid choice!\n";
         break;
     }
 
-    cout<<endl;
+    cout <<"\n";
 
     return 0;
 }
