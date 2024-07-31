@@ -10,21 +10,6 @@ struct node{
 
 struct node* top=NULL;
 
-// void display(){
-//     if (top==NULL)
-//     {
-//         printf("Stack Empty\n");
-//         return;
-//     }
-//     for (struct node* p = top; p !=NULL; p=p->link)
-//     {
-//         printf("%c ",p->info);
-
-//     }
-//     printf("\n");
-    
-// }
-
 void display(){
     if (top==NULL)
     {
@@ -60,8 +45,6 @@ void display(){
 
     }
     printf("\n");
-
-        // printf("                     ---------   ");
     printf("                     ");
     for (struct node* p = top; p !=NULL; p=p->link)
     {

@@ -27,7 +27,7 @@ void push(int x)
     }
     top++;
     stackArr[top] = x;
-      // Added printf statement
+
 }
 
 int pop()
@@ -39,7 +39,7 @@ int pop()
     }
     int item = stackArr[top];
     top--;
-    // Added printf statement
+    
     return item;
 }
 
