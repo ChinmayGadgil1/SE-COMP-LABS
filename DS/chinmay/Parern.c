@@ -65,7 +65,7 @@ void display(){
     printf("                     ");
     for (struct node* p = top; p !=NULL; p=p->link)
     {
-        printf("----------------    ");
+        printf("----------------     ");
     }
     printf("\n");
     printf("                   ");
@@ -163,10 +163,10 @@ int validParentheses(const char input[]){
 
 int main(){
 
-// char input[100];
-// printf("Enter the expression: ");
-// scanf("%s",input);
-if (validParentheses("({})"))
+char input[100];
+printf("Enter the expression: ");
+scanf("%s",input);
+if (validParentheses(input))
 {
     printf("\nResult=> Valid Parentheses\n\n");
 }
