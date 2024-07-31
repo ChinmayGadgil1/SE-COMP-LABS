@@ -111,8 +111,10 @@ int match(char a,char b){
     return 0;
 }
 
-int validParentheses(const char input[]){
+int validParentheses(const char inp[]){
     
+    const char input[100];
+    strcpy(input,inp);
     for (int i = 0; i < strlen(input); i++)
     {
         if (input[i]=='('|| input[i]=='['|| input[i]=='{')
@@ -144,9 +146,54 @@ int validParentheses(const char input[]){
     return 0;
 }
 
+char complement(char c){
+    if(c==')') return '(';
+    if(c=='}') return '{';
+    if(c==']') return '[';
+    else return '0';
+}
+char fix[100];
+void fixPar(const char input[]){
+    int p=0;
+
+    for (int i = 0; i < strlen(input); i++)
+    {
+        if (input[i]=='('|| input[i]=='['|| input[i]=='{')
+        {
+            push(input[i]);
+            fix[p++]=input[i];
+        }
+        else if (input[i]==')' || input[i]==']' || input[i]=='}')
+        {
+            
+            if (top==NULL)
+            {
+                fix[p++]=complement(input[i]);
+                fix[p++]=input[i];
+            }
+            if (!match(peek(),input[i]))
+            {
+
+                fix[p++]=complement(input[i]);
+                fix[p++]=input[i];
+            }
+            pop();
+        }
+    }
+
+    while (top!=NULL)
+    {
+        char c=pop();
+        fix[p++]=c;
+        fix[p++]=complement(c);
+    }
+    
+}
+
 int main(){
 
 char input[100];
+char inp[3];
 printf("Enter the expression: ");
 scanf("%s",input);
 if (validParentheses(input))
@@ -156,6 +203,16 @@ if (validParentheses(input))
 else
 {
     printf("\nResult=> Invalid Parentheses\n\n");
+    // printf("Do you want to fix it?: (yes/no)");
+    // scanf("%s",inp);
+    if (1)
+    {
+        fixPar(input);
+        printf("Before: %s\n",input);
+        printf("After: %s\n",fix);
+    }
+    
+    
 }
 
 return 0;
