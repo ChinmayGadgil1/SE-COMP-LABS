@@ -27,50 +27,53 @@ struct node* top=NULL;
 
 void display(){
     if (top==NULL)
-
     {
-    printf("            ---------   \n");
-        printf("               start|%8s|\n","NULL");
-        printf("                     ---------   ");
+    printf("\n top\n");
+    printf("------\n");
+    printf("|NULL|\n");
+    printf("------\n");
         return;
     }
-
-    printf("            ---------   ");
-
+    printf("\n   top\n");
+    printf("----------\n");
+    printf("|%8p|\n",top);
+    printf("----------\n");
+    printf("     |               ");
     for (struct node* p = top; p !=NULL; p=p->link)
     {
-        printf(" ---------------      ");
+        printf("----------------     ");
     }
     printf("\n");
-    printf("               start|%8u|-->",top);
+    printf("     |-------------->");
+    
 
     for (struct node* p = top; p !=NULL; p=p->link)
     {
         if (p->link!=NULL)
         {
-            printf("| '%c' ||%u|---> ",p->info,p->link);
+            printf("| '%c' |%8p|---> ",p->info,p->link);
         }
         else{
-            printf("| '%c' ||%8s| ",p->info,"NULL");
+            printf("| '%c' |%8p| ",p->info,"NULL");
 
         }
 
     }
     printf("\n");
 
-        printf("                     ---------   ");
-
+        // printf("                     ---------   ");
+    printf("                     ");
     for (struct node* p = top; p !=NULL; p=p->link)
     {
-        printf(" ---------------      ");
+        printf("----------------    ");
     }
     printf("\n");
     printf("                   ");
 
-    printf("                   ");
+    
     for (struct node* p = top; p !=NULL; p=p->link)
     {
-        printf("%8u               ",p);
+        printf("       %8p       ",p);
     }
     printf("\n\n");
     
@@ -132,7 +135,7 @@ int validParentheses(const char input[]){
         if (input[i]=='('|| input[i]=='['|| input[i]=='{')
         {
             push(input[i]);
-            printf("push('%c')",input[i]);
+            printf("push('%c')\n",input[i]);
             display();
             
         }
@@ -147,7 +150,7 @@ int validParentheses(const char input[]){
                 return 0;
             }
             pop();
-            printf("pop()    ");
+            printf("pop()\n");
             display();
         }
     }
@@ -160,10 +163,10 @@ int validParentheses(const char input[]){
 
 int main(){
 
-char input[100];
-printf("Enter the expression: ");
-scanf("%s",input);
-if (validParentheses(input))
+// char input[100];
+// printf("Enter the expression: ");
+// scanf("%s",input);
+if (validParentheses("({})"))
 {
     printf("\nResult=> Valid Parentheses\n\n");
 }
