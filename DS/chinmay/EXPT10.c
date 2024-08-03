@@ -1,70 +1,75 @@
 # include<stdio.h>
 #include<limits.h>
-#include <stdlib.h>
+#include<stdlib.h>
 
-#define MAX 20
+struct node{
+    char info;
+    struct node* link;
+};
 
-int stackArr[MAX];
-int top = -1;
+struct node* top=NULL;
+struct node* front=NULL;
+struct node* rear=NULL;
 
-int isFull()
-{
-    return (top == MAX - 1);
-}
-
-int isEmpty()
-{
-    return (top == -1);
-}
-
-
-void push(int x)
-{
-    if (isFull())
+void push(char item){
+    struct node* tmp;
+    tmp=(struct node *)malloc(sizeof(struct node));
+    if (tmp==NULL)
     {
         printf("Stack Overflow\n");
         return;
     }
-    top++;
-    stackArr[top] = x;
-
+    tmp->info=item;
+    tmp->link=top;
+    top=tmp;
 }
 
-int pop()
-{
-    if (isEmpty())
+char pop(){
+    if (top==NULL)
     {
         printf("Stack Underflow\n");
-        exit(1);
+        return CHAR_MIN;
     }
-    int item = stackArr[top];
-    top--;
-    
+
+    int item=top->info;
+    struct node*p=top;
+    top=top->link;
+    free(p);
     return item;
 }
 
-int peek()
-{
-    if (isEmpty())
+
+
+
+void insert(char data){
+    struct node* tmp=(struct node*)malloc(sizeof(struct node));
+    if (tmp==NULL)
     {
-        printf("Empty\n");
+        printf("Queue Overflow\n");
+        return;
     }
-    else
-    {
-        return stackArr[top];
+    tmp->info=data;
+    tmp->link=NULL;
+    if(front==NULL){
+        front=tmp;
     }
+    else{
+        rear->link=tmp;
+    }
+    rear=tmp;
 }
 
-void display()
-{
-    printf("StackArr:  ");
-    for (int i = 0; i <= top; i++)
-    {
-        printf("%d ", stackArr[i]);
+char delete(){
+    if(front==NULL){
+        printf("Queue Underflow\n");
+        return CHAR_MIN;
     }
-    
+    struct node* tmp=front;
+    char data=tmp->info;
+    front=front->link;
+    free(tmp);
+    return data;
 }
-
 
 
 
@@ -102,6 +107,5 @@ else
 {
     printf("%s is not a palindrome\n",str);
 }
-
 return 0;
 }
