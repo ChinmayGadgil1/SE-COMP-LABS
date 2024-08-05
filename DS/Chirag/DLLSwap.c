@@ -30,7 +30,7 @@ struct Node* addNode(struct Node* head, int data) {
 void displayList(struct Node* head) {
     struct Node* temp = head;
     while (temp != NULL) {
-        printf("[Address: %p | Data: %d] <-> ", (void*)temp, temp->data);
+        printf("[Address: %p | Data: %d] <-> ",temp, temp->data);
         temp = temp->next;
     }
     printf("NULL\n");
