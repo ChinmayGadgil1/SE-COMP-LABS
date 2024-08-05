@@ -123,7 +123,7 @@ void Student::displayStudentData()
     cout << "Name: " << name << endl;
     cout << "Roll No: " << rollNumber << endl;
     cout << "Subject  Marks  Grade Status" << endl;
-    cout << "----------------------------" << endl;
+
     for (int j = 0; j < 4; j++)
     {
         switch (j)
