@@ -86,33 +86,6 @@ struct node* display(struct node* start){
     return start;
 }
 
-struct node* deleteNode(struct node* start,int data){
-    struct node* ptr = start;
-    while(ptr!=NULL){
-        if(ptr->info==data){
-            if(ptr->prev==NULL){
-                start = ptr->next;
-                if(ptr->next!=NULL){
-                    ptr->next->prev = NULL;
-                }
-                free(ptr);
-                return start;
-            }
-            if(ptr->next==NULL){
-                ptr->prev->next = NULL;
-                free(ptr);
-                return start;
-            }
-            ptr->prev->next = ptr->next;
-            ptr->next->prev = ptr->prev;
-            free(ptr);
-            return start;
-        }
-        ptr = ptr->next;
-    }
-    printf("Element not found\n");
-    return start;
-}
 
 struct node* swapAlternate(struct node* start) {
     if (start == NULL || start->next == NULL) {
@@ -123,6 +96,8 @@ struct node* swapAlternate(struct node* start) {
     struct node* q = start->next;
     start = q;
     struct node* tmp;
+
+
     while (1) {
         tmp = q->next;
         q->next = p;
@@ -139,12 +114,23 @@ struct node* swapAlternate(struct node* start) {
     return start;
 }
 
+void printAddresses(struct node* start){
+
+    struct node* p=start;
+    while(p!=NULL){
+        printf("%p  ",p);
+        p=p->next;
+    }
+    printf("\n");
+}
+
 int main(){
 
 struct node* start=NULL;
 start=createDLL(start);
-display(start);
+printAddresses(start);
 start=swapAlternate(start);
-display(start);
+printAddresses(start);
+
 return 0;
 }
