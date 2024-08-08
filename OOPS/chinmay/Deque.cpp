@@ -24,7 +24,7 @@ public:
     }
     bool isFull()
     {
-        return front == size - 1 || front >= rear;
+        return  front >= rear || rear==0 || front == size - 1;
     }
 
     bool isFrontEmpty()
