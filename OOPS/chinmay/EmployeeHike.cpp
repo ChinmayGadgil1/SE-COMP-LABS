@@ -115,9 +115,10 @@ int main()
                 cin >> hike;
                 emp[i].changeSal(hike);
             }
+            break;
 
         case 3:
-            cout << "\nCode\t\t\t" << "Name\t\t\t\t" << "Salary\t\t" << "Status\t\t\t\n";
+            cout << "\nCode\t\t" << "Name\t\t\t\t" << "Salary\t\t" << "Status\t\t\t\n";
             cout<<"-------------------------------------------------------------------------------\n";
             for (int i = 0; i < n; i++)
             {
