@@ -28,7 +28,6 @@ int pop(){
         printf("Stack Underflow\n");
         return INT_MIN;
     }
-
     int item=top->info;
     struct node*p=top;
     top=top->link;

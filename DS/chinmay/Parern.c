@@ -113,24 +113,22 @@ int match(char a,char b){
 
 int validParentheses(const char inp[]){
     
-    const char input[100];
-    strcpy(input,inp);
-    for (int i = 0; i < strlen(input); i++)
+    for (int i = 0; i < strlen(inp); i++)
     {
-        if (input[i]=='('|| input[i]=='['|| input[i]=='{')
+        if (inp[i]=='('|| inp[i]=='['|| inp[i]=='{')
         {
-            push(input[i]);
-            printf("push('%c')\n",input[i]);
+            push(inp[i]);
+            printf("push('%c')\n",inp[i]);
             display();
             
         }
-        else if (input[i]==')' || input[i]==']' || input[i]=='}')
+        else if (inp[i]==')' || inp[i]==']' || inp[i]=='}')
         {
             if (top==NULL)
             {
                 return 0;
             }
-            if (!match(peek(),input[i]))
+            if (!match(peek(),inp[i]))
             {
                 return 0;
             }
