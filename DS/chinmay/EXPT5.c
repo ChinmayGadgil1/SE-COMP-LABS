@@ -5,7 +5,7 @@
 
 #define MAX 30
 
-int stackArr[MAX]; // Changed from char to int
+int stackArr[MAX]; 
 int top = -1;
 char postfix[MAX];
 
