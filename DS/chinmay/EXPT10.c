@@ -79,10 +79,6 @@ int palindrome(const char str[]) {
             return 0;   
         }
     }
-    if (top!=NULL && front!=NULL)
-    {
-        return 0;
-    }
     
     return 1;
 }
