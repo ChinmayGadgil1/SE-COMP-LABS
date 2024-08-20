@@ -14,6 +14,9 @@ class Complex{
         int imag=(a*other.b)+(b*other.a);
         return Complex(real, imag);
     }
+    Complex operator<<(const Complex& other){
+        
+    }
 };
 int main(){
 
