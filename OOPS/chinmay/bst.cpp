@@ -1,4 +1,5 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
 class Node
@@ -7,12 +8,16 @@ public:
     int data;
     Node *left;
     Node *right;
-
     Node(int value)
     {
         data = value;
         left = NULL;
         right = NULL;
+    }
+    ~Node()
+    {
+        delete left;
+        delete right;
     }
 };
 
@@ -29,10 +34,10 @@ public:
 
     void insert(int value)
     {
-        root = insertRecursive(root, value);
+        root = insertNode(root, value);
     }
 
-    Node *insertRecursive(Node *root, int value)
+    Node *insertNode(Node *root, int value)
     {
         if (root == NULL)
         {
@@ -41,40 +46,39 @@ public:
 
         if (value < root->data)
         {
-            root->left = insertRecursive(root->left, value);
+            root->left = insertNode(root->left, value);
         }
         else if (value > root->data)
         {
-            root->right = insertRecursive(root->right, value);
+            root->right = insertNode(root->right, value);
         }
 
         return root;
     }
 
-    void inorderTraversal()
+    void inorderTraversal() const
     {
         inorder(root);
     }
 
-    void inorder(Node *root)
+    void inorder(Node *root) const
     {
         if (root != NULL)
         {
             inorder(root->left);
-            cout << root->data << " ";
+            cout << root->data <<" ";
             inorder(root->right);
         }
     }
 
-    // Function to copy the tree
-    BST copyTree()
+    BST copyTree() const
     {
         BST newTree;
         newTree.root = copyNodes(root);
         return newTree;
     }
 
-    Node* copyNodes(Node* root)
+    Node* copyNodes(Node* root) const
     {
         if (root == NULL)
         {
@@ -87,31 +91,28 @@ public:
         return newNode;
     }
 
-    // Function to compare two trees
-    bool compareTrees(const BST& other)
+    bool compareTrees(BST& other) 
     {
-        return compareNodes(this->root, other.root);
+        vector<int> a,b;
+        getInorder(this->root, a);
+        getInorder(other.root,b );
+        return a == b;
     }
 
-    bool compareNodes(Node* root1, Node* root2)
+    void getInorder(Node* root, vector<int>& inorder) 
     {
-        if (root1 == NULL && root2 == NULL)
+        if (root != NULL)
         {
-            return true;
+            getInorder(root->left, inorder);
+            inorder.push_back(root->data);
+            getInorder(root->right, inorder);
         }
-        if (root1 == NULL || root2 == NULL)
-        {
-            return false;
-        }
-        return (root1->data == root2->data) &&
-               compareNodes(root1->left, root2->left) &&
-               compareNodes(root1->right, root2->right);
     }
 };
 
 int main()
 {
-    BST bst;
+    BST bst1;
 
     int choice;
 
@@ -130,25 +131,24 @@ int main()
             int value;
             cout << "Enter the value you want to insert\n";
             cin >> value;
-            bst.insert(value);
+            bst1.insert(value);
         }
         else if (choice == 2)
         {
             cout << "\n";
-            bst.inorderTraversal();
-            cout << "\n";
+            bst1.inorderTraversal();
             cout << "\n";
         }
         else if (choice == 3)
         {
-            BST copiedTree = bst.copyTree();
-            cout << "Copied tree :\n";
+            BST copiedTree = bst1.copyTree();
+            cout << "Copied tree (inorder traversal):\n";
             copiedTree.inorderTraversal();
             cout << "\n";
         }
         else if (choice == 4)
         {
-            BST otherTree;
+            BST bst2;
             int numNodes, value;
             cout << "Enter the number of nodes in the other tree:\n";
             cin >> numNodes;
@@ -156,15 +156,15 @@ int main()
             {
                 cout << "Enter value for node " << i + 1 << ":\n";
                 cin >> value;
-                otherTree.insert(value);
+                bst2.insert(value);
             }
-            if (bst.compareTrees(otherTree))
+            if (bst1.compareTrees(bst2))
             {
-                cout << "The binary trees are identical.\n";
+                cout << "\nThe binary trees are identical.\n\n";
             }
             else
             {
-                cout << "The binary trees are not identical.\n";
+                cout << "\nThe binary trees are not identical.\n\n";
             }
         }
         else if (choice == 5)
