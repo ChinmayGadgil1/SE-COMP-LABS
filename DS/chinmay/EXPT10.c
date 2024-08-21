@@ -83,8 +83,10 @@ int palindrome(const char str[]) {
     return 1;
 }
 
+
+
 int main() {
-    char str[100];
+    char str[10];
     printf("Enter a string: ");
     scanf("%s", str);
     if (palindrome(str)) {
