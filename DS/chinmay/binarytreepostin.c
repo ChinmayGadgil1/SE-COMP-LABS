@@ -88,7 +88,7 @@ struct treeNode* constructPostIn(struct listNode *postptr, struct listNode *inpt
 
     tmp->rchild = constructPostIn(postptr, p->link, n - i - 1);
 
-    return tmp; // Ensure the function returns the constructed tree node
+    return tmp; 
 }
 
 void preorder(struct treeNode *ptr) {
@@ -128,12 +128,16 @@ int main() {
     struct treeNode *root;
     root = constructPostIn(postptr, inptr, n);
 
+    printf("\nTraversals of constructed tree:\n");
+    printf("\nPreorder traversal:\n");
     preorder(root);
     printf("\n");
+    printf("\nInorder traversal:\n");
     inorder(root);
     printf("\n");
+    printf("\nPostorder traversal:\n");
     postorder(root);
-    printf("\n");
+    printf("\n\n");
 
     return 0;
 }
