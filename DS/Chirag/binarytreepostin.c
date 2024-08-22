@@ -4,16 +4,13 @@
 struct listNode{
     int info;
     struct listNode *link;
-}*inptr=NULL,*preptr=NULL,*postptr=NULL;
-
+}*inptr=NULL,*postptr=NULL;
 
 struct treeNode{
     struct treeNode *lchild;
     int info;
     struct treeNode *rchild;
 }; 
-
-
 
 struct listNode* addAtBegin(struct listNode* start,int data){
     struct listNode* tmp;
@@ -63,37 +60,6 @@ struct listNode* createList(struct listNode* start,int n){
     return start;
 }
 
-
-
-struct treeNode* constructPreIn(struct listNode *preptr, struct listNode *inptr,int n){
-
-struct treeNode *tmp;
-struct listNode *q;
-int i,j;
-if(n==0)
-    return NULL;
-tmp=(struct treeNode*)malloc(sizeof(struct treeNode));
-tmp->lchild=NULL;
-tmp->info=preptr->info;
-tmp->rchild=NULL;
-
-if(n==1)
-    return tmp;
-
-q=inptr;
-for(i=0;q->info!=preptr->info;i++)
-    q=q->link;
-
-tmp->lchild=constructPreIn(preptr->link,inptr,i);
-
-for(j=1;j<=i+1;j++)
-    preptr=preptr->link;
-
-tmp->rchild=constructPreIn(preptr,q->link,n-i-1);
-
-return tmp;
-}
-
 struct treeNode* constructPostIn(struct listNode *postptr, struct listNode *inptr,int n){
     int i,j;
     struct treeNode *tmp;
@@ -122,8 +88,6 @@ struct treeNode* constructPostIn(struct listNode *postptr, struct listNode *inpt
     tmp->rchild=constructPostIn(postptr,p->link,n-i-1);
 }
 
-
-
 void preorder(struct treeNode *ptr){
     if(ptr==NULL)
         return;
@@ -147,9 +111,6 @@ void postorder(struct treeNode *ptr){
     printf("%d ",ptr->info);
 }
 
-
-                                                                                     
-
 int main(){
 
 printf("Enter size of tree: ");
@@ -159,11 +120,11 @@ scanf("%d",&n);
 
 printf("Enter the inorder list: ");
 inptr=createList(inptr,n);
-printf("Enter the preorder list: ");
-preptr=createList(preptr,n);
+printf("Enter the postorder list: ");
+postptr=createList(postptr,n);
 
 struct treeNode *root;
-root=constructPreIn(preptr,inptr,n);
+root=constructPostIn(postptr,inptr,n);
 
 preorder(root);
 printf("\n");
