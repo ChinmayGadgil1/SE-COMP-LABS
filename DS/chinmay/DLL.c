@@ -1,13 +1,13 @@
 # include<stdio.h>
 #include<stdlib.h>
 
-struct node{
+struct dllnode{
     int info;
-    struct node* prev,*next;
+    struct dllnode* prev,*next;
 };
 
-struct node* addEmpty(struct node* start,int data){
-    struct node* tmp = (struct node*)malloc(sizeof(struct node));
+struct dllnode* addEmpty(struct dllnode* start,int data){
+    struct dllnode* tmp = (struct dllnode*)malloc(sizeof(struct dllnode));
     tmp->info = data;
     tmp->prev = NULL;
     tmp->next = NULL;
@@ -15,8 +15,8 @@ struct node* addEmpty(struct node* start,int data){
     return start;
 }
 
-struct node* addBegin(struct node* start,int data){
-    struct node* tmp = (struct node*)malloc(sizeof(struct node));
+struct dllnode* addBegin(struct dllnode* start,int data){
+    struct dllnode* tmp = (struct dllnode*)malloc(sizeof(struct dllnode));
     tmp->info = data;
     tmp->prev = NULL;
     tmp->next = start;
@@ -25,9 +25,9 @@ struct node* addBegin(struct node* start,int data){
     return start;
 }
 
-struct node* addEnd(struct node* start,int data){
-    struct node* tmp = (struct node*)malloc(sizeof(struct node));
-    struct node* ptr = start;
+struct dllnode* addEnd(struct dllnode* start,int data){
+    struct dllnode* tmp = (struct dllnode*)malloc(sizeof(struct dllnode));
+    struct dllnode* ptr = start;
     while(ptr->next!=NULL){
         ptr = ptr->next;
     }
@@ -38,9 +38,9 @@ struct node* addEnd(struct node* start,int data){
     return start;
 }
 
-struct node* addAfter(struct node* start,int data,int item){
-    struct node* tmp = (struct node*)malloc(sizeof(struct node));
-    struct node* ptr = start;
+struct dllnode* addAfter(struct dllnode* start,int data,int item){
+    struct dllnode* tmp = (struct dllnode*)malloc(sizeof(struct dllnode));
+    struct dllnode* ptr = start;
     while(ptr!=NULL){
         if(ptr->info==item){
             tmp->info = data;
@@ -58,7 +58,7 @@ struct node* addAfter(struct node* start,int data,int item){
     return start;
 }
 
-struct node* createDLL(struct node* start){
+struct dllnode* createDLL(struct dllnode* start){
     int n,data;
     printf("Enter the number of elements: ");
     scanf("%d",&n);
@@ -76,7 +76,7 @@ struct node* createDLL(struct node* start){
     return start;
 }
 
-void display(struct node* start){
+void display(struct dllnode* start){
     if (start==NULL)
     {
     printf("\n start\n");
@@ -91,7 +91,7 @@ void display(struct node* start){
     printf("|%8p|\n",start);
     printf("----------\n");
     printf("     |               ");
-    for (struct node* i = start; i->next !=NULL; i=i->next)
+    for (struct dllnode* i = start; i->next !=NULL; i=i->next)
     {
         printf(" -----------------------  --> ");
     }
@@ -99,7 +99,7 @@ void display(struct node* start){
 
     printf("\n");
     printf("     |-------------->");
-    for (struct node* i = start; i !=NULL; i=i->next)
+    for (struct dllnode* i = start; i !=NULL; i=i->next)
     {
         if (i->next!=NULL && i->prev!=NULL)
         {
@@ -120,7 +120,7 @@ void display(struct node* start){
     }
     printf("\n");
     printf("                     ");
-    for (struct node* p = start; p ->next!=NULL; p=p->next)
+    for (struct dllnode* p = start; p ->next!=NULL; p=p->next)
     {
         printf(" -----------------------  <-- ");
     }
@@ -130,7 +130,7 @@ void display(struct node* start){
     printf("                   ");
                     
     printf("          ");
-    for (struct node* p = start; p !=NULL; p=p->next)
+    for (struct dllnode* p = start; p !=NULL; p=p->next)
     {
         printf("%8p                      ",p);
     }
@@ -138,15 +138,15 @@ void display(struct node* start){
 }
 
 
-struct node* swapAlternate(struct node* start) {
+struct dllnode* swapAlternate(struct dllnode* start) {
     if (start == NULL || start->next == NULL) {
         return start;
     }
 
-    struct node* p = start;
-    struct node* q = start->next;
+    struct dllnode* p = start;
+    struct dllnode* q = start->next;
     start = q;
-    struct node* tmp;
+    struct dllnode* tmp;
 
 
     while (1) {
@@ -165,9 +165,9 @@ struct node* swapAlternate(struct node* start) {
     return start;
 }
 
-void printAddresses(struct node* start){
+void printAddresses(struct dllnode* start){
 
-    struct node* p=start;
+    struct dllnode* p=start;
     while(p!=NULL){
         printf("%p  ",p);
         p=p->next;
@@ -177,12 +177,12 @@ void printAddresses(struct node* start){
 
 int main(){
 
-struct node* start=NULL;
+struct dllnode* start=NULL;
 start=createDLL(start);
-printf("\nBefore Swapping alternate nodes:\n\n");
+printf("\nBefore Swapping alternate dllnodes:\n\n");
 display(start);
 start=swapAlternate(start);
-printf("\nAfter Swapping alternate nodes:\n\n");
+printf("\nAfter Swapping alternate dllnodes:\n\n");
 display(start);
 
 
