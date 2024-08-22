@@ -25,16 +25,18 @@ class BST
 {
 private:
     Node *root;
-
+    int size;
 public:
     BST()
     {
         root = NULL;
+        size=0;
     }
 
     void insert(int value)
     {
         root = insertNode(root, value);
+        size++;
     }
 
     Node *insertNode(Node *root, int value)
@@ -91,13 +93,28 @@ public:
         return newNode;
     }
 
-    bool compareTrees(BST& other) 
+    bool operator ==(BST& other) 
     {
+        if(size!= other.size) return false;
         vector<int> a,b;
         getInorder(this->root, a);
         getInorder(other.root,b );
-        return a == b;
+        // BST* otherptr=&other;
+
+    //    return compareTree(this,otherptr);
+
+    return a==b;  
+        
     }
+
+    // friend bool compareTree(BST* first,BST* second){
+    //     if (first==NULL || second ==NULL)
+    //     {
+    //         return false;
+    //     }
+    //     if(first->root->data!=second->root->data) return false;
+
+    // }
 
     void getInorder(Node* root, vector<int>& inorder) 
     {
@@ -144,7 +161,7 @@ int main()
             BST copiedTree = bst1.copyTree();
             cout << "Copied tree (inorder traversal):\n";
             copiedTree.inorderTraversal();
-            cout << "\n";
+            cout << "\n\n";
         }
         else if (choice == 4)
         {
@@ -158,7 +175,7 @@ int main()
                 cin >> value;
                 bst2.insert(value);
             }
-            if (bst1.compareTrees(bst2))
+            if (bst1==bst2)
             {
                 cout << "\nThe binary trees are identical.\n\n";
             }

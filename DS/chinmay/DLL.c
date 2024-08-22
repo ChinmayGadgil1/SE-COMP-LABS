@@ -76,14 +76,65 @@ struct node* createDLL(struct node* start){
     return start;
 }
 
-struct node* display(struct node* start){
-    struct node* ptr = start;
-    while(ptr!=NULL){
-        printf("%d ",ptr->info);
-        ptr = ptr->next;
+void display(struct node* start){
+    if (start==NULL)
+    {
+    printf("\n start\n");
+    printf("------\n");
+    printf("|NULL|\n");
+    printf("------\n\n");
+        return;
+    }
+  
+     printf("\n  start\n");
+    printf("----------\n");
+    printf("|%8p|\n",start);
+    printf("----------\n");
+    printf("     |               ");
+    for (struct node* i = start; i->next !=NULL; i=i->next)
+    {
+        printf(" -----------------------  --> ");
+    }
+    printf(" -----------------------      ");
+
+    printf("\n");
+    printf("     |-------------->");
+    for (struct node* i = start; i !=NULL; i=i->next)
+    {
+        if (i->next!=NULL && i->prev!=NULL)
+        {
+            printf("|%8p| %3d |%8p|     ",i->prev,i->info,i->next);
+        }
+        else if(i->next==NULL && i->prev!=NULL){
+            printf("|%8p| %3d |%8s|     ",i->prev,i->info,"NULL");
+
+        }
+        else if (i->next!=NULL && i->prev==NULL)
+        {
+            printf("|%8s| %3d |%8p|     ", "NULL", i->info, i->next);
+        }
+        else
+        {
+            printf("|%8s| %3d |%8s|     ", "NULL", i->info, "NULL");
+        }
     }
     printf("\n");
-    return start;
+    printf("                     ");
+    for (struct node* p = start; p ->next!=NULL; p=p->next)
+    {
+        printf(" -----------------------  <-- ");
+    }
+    printf(" -----------------------      ");
+
+    printf("\n");
+    printf("                   ");
+                    
+    printf("          ");
+    for (struct node* p = start; p !=NULL; p=p->next)
+    {
+        printf("%8p                      ",p);
+    }
+    printf("\n\n");
 }
 
 
@@ -128,9 +179,12 @@ int main(){
 
 struct node* start=NULL;
 start=createDLL(start);
-printAddresses(start);
+printf("\nBefore Swapping alternate nodes:\n\n");
+display(start);
 start=swapAlternate(start);
-printAddresses(start);
+printf("\nAfter Swapping alternate nodes:\n\n");
+display(start);
+
 
 return 0;
 }

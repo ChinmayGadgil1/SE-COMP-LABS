@@ -101,8 +101,6 @@ char peek(){
     return top->info;
 }
 
-
-
 int match(char a,char b){
     if (a=='(' && b==')' || a=='[' && b==']' || a=='{' && b=='}')
     {
@@ -144,49 +142,8 @@ int validParentheses(const char inp[]){
     return 0;
 }
 
-char complement(char c){
-    if(c==')') return '(';
-    if(c=='}') return '{';
-    if(c==']') return '[';
-    else return '0';
-}
-char fix[100];
-void fixPar(const char input[]){
-    int p=0;
 
-    for (int i = 0; i < strlen(input); i++)
-    {
-        if (input[i]=='('|| input[i]=='['|| input[i]=='{')
-        {
-            push(input[i]);
-            fix[p++]=input[i];
-        }
-        else if (input[i]==')' || input[i]==']' || input[i]=='}')
-        {
-            
-            if (top==NULL)
-            {
-                fix[p++]=complement(input[i]);
-                fix[p++]=input[i];
-            }
-            if (!match(peek(),input[i]))
-            {
 
-                fix[p++]=complement(input[i]);
-                fix[p++]=input[i];
-            }
-            pop();
-        }
-    }
-
-    while (top!=NULL)
-    {
-        char c=pop();
-        fix[p++]=c;
-        fix[p++]=complement(c);
-    }
-    
-}
 
 int main(){
 
@@ -207,10 +164,8 @@ else
     {
         fixPar(input);
         printf("Before: %s\n",input);
-        printf("After: %s\n",fix);
+        // printf("After: %s\n",fix);
     }
-    
-    
 }
 
 return 0;
