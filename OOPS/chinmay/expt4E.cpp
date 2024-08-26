@@ -1,70 +1,103 @@
 #include <iostream>
 #include <vector>
 
-struct Vector {
-    double x, y, z;
+using namespace std;
+
+class Vector {
+private:
+    vector<int> data;
+
+public:
+    // Constructor to initialize the vector with a given size
+    Vector(int size) : data(size) {}
+
+    // Overloading the [] operator to access elements by index
+    int& operator[](int index) {
+        return data[index];
+    }
+
+    // Overloading the * operator for scalar multiplication
+    Vector operator*(int scalar) const {
+        Vector result(data.size());
+        for (int i = 0; i < data.size(); i++) {
+            result[i] = data[i] * scalar;
+        }
+        return result;
+    }
+
+    // Overloading the + operator for vector addition
+    Vector operator+(const Vector& other) const {
+        if (data.size() != other.data.size()) {
+            throw runtime_error("Vectors must be of the same size for addition");
+        }
+        Vector result(data.size());
+        for (int i = 0; i < data.size(); i++) {
+            result[i] = data[i] + other.data[i];
+        }
+        return result;
+    }
+
+    // Method to print the vector elements
+    void print() const {
+        for (int i = 0; i < data.size(); i++) {
+            cout << data[i] << " ";
+        }
+        cout << endl;
+    }
 };
 
 int main() {
     int n;
-    double scalar;
+    cout << "Enter the number of elements in the vector: ";
+    cin >> n;
 
-    std::cout << "Enter the number of elements in the vector: ";
-    std::cin >> n;
+    Vector vec(n);
 
-    std::vector<Vector*> vector1(n);
-    std::vector<Vector*> vector2(n);
-    std::vector<Vector*> result(n);
-
-    std::cout << "Enter the scalar value: ";
-    std::cin >> scalar;
-
-    // Input vector1
-    std::cout << "Enter the elements of vector1 (x y z):" << std::endl;
+    cout << "Enter the elements of the vector: ";
     for (int i = 0; i < n; i++) {
-        vector1[i] = new Vector;
-        std::cin >> vector1[i]->x >> vector1[i]->y >> vector1[i]->z;
+        cin >> vec[i];
     }
 
-    // Input vector2
-    std::cout << "Enter the elements of vector2 (x y z):" << std::endl;
-    for (int i = 0; i < n; i++) {
-        vector2[i] = new Vector;
-        std::cin >> vector2[i]->x >> vector2[i]->y >> vector2[i]->z;
-    }
+    int choice;
+    while (true) {
+        cout << "\nMenu:" << endl;
+        cout << "1. Multiply vector by scalar" << endl;
+        cout << "2. Add two vectors" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Enter your choice: ";
+        cin >> choice;
 
-    // Multiply scalar with each element of vector1
-    for (int i = 0; i < n; i++) {
-        result[i] = new Vector;
-        result[i]->x = scalar * vector1[i]->x;
-        result[i]->y = scalar * vector1[i]->y;
-        result[i]->z = scalar * vector1[i]->z;
-    }
+        switch (choice) {
+            case 1: {
+                int scalar;
+                cout << "Enter the scalar value: ";
+                cin >> scalar;
 
-    // Display the result of scalar multiplication
-    std::cout << "Result of scalar multiplication:" << std::endl;
-    for (int i = 0; i < n; i++) {
-        std::cout << result[i]->x << " " << result[i]->y << " " << result[i]->z << std::endl;
-    }
+                Vector result = vec * scalar;
 
-    // Add vector1 and vector2
-    for (int i = 0; i < n; i++) {
-        result[i]->x = vector1[i]->x + vector2[i]->x;
-        result[i]->y = vector1[i]->y + vector2[i]->y;
-        result[i]->z = vector1[i]->z + vector2[i]->z;
-    }
+                cout << "Updated vector after scalar multiplication: ";
+                result.print();
+                break;
+            }
+            case 2: {
+                Vector vec2(n);
 
-    // Display the result of vector addition
-    std::cout << "Result of vector addition:" << std::endl;
-    for (int i = 0; i < n; i++) {
-        std::cout << result[i]->x << " " << result[i]->y << " " << result[i]->z << std::endl;
-    }
-
-    // Clean up memory
-    for (int i = 0; i < n; i++) {
-        delete vector1[i];
-        delete vector2[i];
-        delete result[i];
+                cout << "Enter the elements of the second vector: ";
+                for (int i = 0; i < n; i++) {
+                    cin >> vec2[i];
+                }
+                    Vector result = vec + vec2;
+                    cout << "Result of addition of two vectors: ";
+                    result.print();
+                break;
+            }
+            case 3:
+                cout << "Exiting..." << endl;
+                return 0;
+            default:
+                cout << "Invalid choice. Please try again." << endl;
+                break;
+        }
     }
 
     return 0;

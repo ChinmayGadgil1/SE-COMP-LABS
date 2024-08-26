@@ -146,30 +146,41 @@ void displayDLL(struct dllnode* start){
 
 struct dllnode* dllswapAlternate(struct dllnode* start) {
     if (start == NULL || start->next == NULL) {
-        return start;
+        return start;  
     }
 
     struct dllnode* p = start;
     struct dllnode* q = start->next;
-    start = q;
-    struct dllnode* tmp;
-
+    start = q;  
+    struct dllnode* prev = NULL;
 
     while (1) {
-        tmp = q->next;
+        struct dllnode* nextPair = q->next;
+        
         q->next = p;
-        q->prev = p->prev;
         p->prev = q;
-        p->next = tmp;
-        if (tmp == NULL || tmp->next == NULL)
+        p->next = nextPair;
+        if (nextPair != NULL) {
+            nextPair->prev = p;
+        }
+        
+        
+        if (prev != NULL) {
+            prev->next = q;
+            q->prev = prev;
+        }
+        
+        prev = p;
+        if (nextPair == NULL || nextPair->next == NULL) {
             break;
-        p->next = tmp->next;
-        p = tmp;
-        q = p->next;
+        }
+        p = nextPair;
+        q = nextPair->next;
     }
 
     return start;
 }
+
 
 void printAddresses(struct dllnode* start){
 
@@ -454,17 +465,23 @@ struct node *deleteList(struct node *last)
 
 int main()
 {
+    printf("******************\n");
+    printf("DOUBLY LINKED LIST\n");
+    printf("******************\n\n");
     struct dllnode* dll=createDLL(dll);
     printf("\nBefore swapping alternate nodes:\n\n");
     displayDLL(dll);
-    dllswapAlternate(dll);
+    dll=dllswapAlternate(dll);
     printf("\nAfter swapping alternate nodes\n\n");
     displayDLL(dll);
 
+    printf("\n\n********************\n");
+    printf("CIRCULAR LINKED LIST\n");
+    printf("********************\n\n");
     struct node* cll=createList(cll);
     printf("\nBefore deleting alternate nodes\n\n");
     displayCLL(cll);
-    deleteAlternateNodes(cll);
+    cll=deleteAlternateNodes(cll);
     printf("\nAfter deleting alternate nodes\n\n");
     displayCLL(cll);
     
