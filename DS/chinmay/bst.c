@@ -29,6 +29,9 @@ struct node* insert(struct node* ptr,int ikey){
     return ptr;
 }
 
+
+
+
 struct node* delete(struct node* ptr,int dkey){
     if(ptr==NULL){
         printf("\nTree Empty\n");
@@ -101,6 +104,39 @@ void postorder(struct node *ptr){
     printf("%d ",ptr->info);
 }
 
+int height(struct node* ptr){
+    int lh,rh;
+    if(ptr==NULL){
+        return 0;
+    }
+    lh=height(ptr->lchild);
+    rh=height(ptr->rchild);
+    if(lh>rh)
+        return lh+1;
+    return rh+1;
+}
+
+void displayLevelOrder(struct node* ptr,int level){
+    if(ptr==NULL) return;
+    if(level==1) printf("%d ",ptr->info);
+    else if (level>1)
+    {
+        displayLevelOrder(ptr->lchild,level-1);
+        displayLevelOrder(ptr->rchild,level-1);
+    }
+    
+}
+void levelorder(struct node* ptr){
+    int h=height(ptr);
+    for (int i = 0; i <=h; i++)
+    {
+       displayLevelOrder(ptr,i);
+    }
+    
+}
+
+
+
 struct node* createBST(struct node* root){
     root=NULL;
     int n,data;
@@ -130,6 +166,8 @@ printf("\n");
 inorder(root);
 printf("\n");
 postorder(root);
+printf("\n");
+levelorder(root);
 printf("\n");
 
 deleteAlloc(root);
