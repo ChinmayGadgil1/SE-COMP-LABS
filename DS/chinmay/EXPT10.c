@@ -217,9 +217,11 @@ int palindrome(const char str[]) {
         printf("pop()\n");
         char a=pop();
         displayStack();
+        printf("Item='%c'\n\n",a);
         printf("delete()\n",front->info);
         char b=delete();
         displayQueue();
+        printf("Item='%c'\n\n",b);
         if (a!=b){
             return 0;   
         }
@@ -265,9 +267,10 @@ int validParentheses(const char inp[]){
             {
                 return 0;
             }
-            pop();
+            char item=pop();
             printf("pop()\n");
             displayStack();
+            printf("Item='%c'\n\n",item);
         }
     }
     if (top==NULL)
