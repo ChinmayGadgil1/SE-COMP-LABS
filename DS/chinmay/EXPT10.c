@@ -201,6 +201,7 @@ void displayQueue() {
 }
 
 int palindrome(const char str[]) {
+    top=NULL;
     int i = 0;
     while (str[i] != '\0') {
           push(str[i]);
@@ -247,7 +248,7 @@ int match(char a,char b){
 }
 
 int validParentheses(const char inp[]){
-    
+    top=NULL;
     for (int i = 0; i < strlen(inp); i++)
     {
         if (inp[i]=='('|| inp[i]=='['|| inp[i]=='{')
