@@ -177,19 +177,70 @@ struct node *createBST(struct node *root)
 int main()
 {
 
-    struct node *root;
-    root = createBST(root);
-    root = delete (root, 10);
+   int choice;
+   struct node* root;
 
-    printf("\n");
-    preorder(root);
-    printf("\n");
-    inorder(root);
-    printf("\n");
-    postorder(root);
-    printf("\n");
-    levelorder(root);
-    printf("\n");
+   while(1)
+   {
+    printf("Menu:\n");
+    printf("1. Create BST\n");
+    printf("2. Insert\n");
+    printf("3. Delete\n");
+    printf("4. Get height\n");
+    printf("5. Preorder\n");
+    printf("6. Inorder\n");
+    printf("7. Postorder\n");
+    printf("8. Levelorder\n");
+    printf("9. Exit\n");
+    printf("Enter your choice: ");
+    scanf("%d", &choice);
+    
+    if (choice==1)
+    {
+        root=createBST(root);
+    }
+    else if (choice==2)
+    {
+        int data;
+        printf("Enter element to insert: ");
+        scanf("%d", &data);
+        root = insert(root, data);
+    }
+    else if (choice==3)
+    {
+        int data;
+        printf("Enter element: ");
+        scanf("%d", &data);
+        root = delete(root, data);
+    }
+    else if (choice==4){
+        printf("Height of tree is: %d\n", height(root));
+    }
+    else if (choice==5){
+        printf("Preorder: ");
+        preorder(root);
+        printf("\n");
+    }
+    else if (choice==6){
+        printf("Inorder: ");
+        inorder(root);
+        printf("\n");
+    }
+    else if (choice==7){
+        printf("Postorder: ");
+        postorder(root);
+        printf("\n");
+    }
+    else if (choice==8){
+        printf("Levelorder: ");
+        levelorder(root);
+        printf("\n");
+    }
+    else if (choice==9){
+        break;
+    }
+   }
+   
 
     deleteAlloc(root);
     return 0;
