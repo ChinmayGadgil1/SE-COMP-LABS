@@ -38,7 +38,7 @@ struct node *delete(struct node *ptr, int dkey)
 {
     if (ptr == NULL)
     {
-        printf("\nTree Empty\n");
+        printf("Dkey not found\n");
         return ptr;
     }
     if (dkey < ptr->info)
@@ -182,7 +182,7 @@ int main()
 
    while(1)
    {
-    printf("Menu:\n");
+    printf("\nMenu:\n");
     printf("1. Create BST\n");
     printf("2. Insert\n");
     printf("3. Delete\n");
