@@ -6,7 +6,6 @@ class GrandParent
 protected:
     string profession;
     long long phone_num;
-
 public:
     GrandParent(string prof, long long ph)
     {
