@@ -15,7 +15,7 @@ struct node *insert(struct node *ptr, int ikey)
     {
         struct node *tmp = (struct node *)malloc(sizeof(struct node));
         tmp->info = ikey;
-        tmp->lchild = NULL;
+        tmp->lchild = NULL;963825714
         tmp->rchild = NULL;
         return tmp;
     }
