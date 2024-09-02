@@ -200,6 +200,19 @@ struct node *min(struct node *root)
     return root;
 }
 
+struct node *search(struct node *root, int key)
+{
+    if (root == NULL)
+        return NULL;
+    if (root->info == key)
+        return root;
+    if (key < root->info)
+        return search(root->lchild, key);
+    else
+    {
+        return search(root->rchild, key);
+    }
+}
 int main()
 {
 
@@ -219,7 +232,8 @@ int main()
         printf("8. Levelorder\n");
         printf("9. Max element\n");
         printf("10. Min element\n");
-        printf("11. Exit\n");
+        printf("11. Search\n");
+        printf("12. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -283,6 +297,15 @@ int main()
             printf("Min element is: %d\n", ptr->info);
         }
         else if (choice == 11)
+        {
+            int key;
+            printf("Enter key to search: ");
+            scanf("%d", &key);
+            ptr = search(root, key);
+            if (ptr != NULL)
+                printf("Key found\n");
+        }
+        else if (choice == 12)
         {
             break;
         }
