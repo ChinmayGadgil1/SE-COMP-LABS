@@ -15,7 +15,7 @@ struct node *insert(struct node *ptr, int ikey)
     {
         struct node *tmp = (struct node *)malloc(sizeof(struct node));
         tmp->info = ikey;
-        tmp->lchild = NULL;963825714
+        tmp->lchild = NULL;
         tmp->rchild = NULL;
         return tmp;
     }
@@ -174,73 +174,119 @@ struct node *createBST(struct node *root)
     return root;
 }
 
+struct node *max(struct node *root)
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+    while (root->rchild != NULL)
+    {
+        root = root->rchild;
+    }
+    return root;
+}
+
+struct node *min(struct node *root)
+{
+    if (root == NULL)
+    {
+        return NULL;
+    }
+    while (root->lchild != NULL)
+    {
+        root = root->lchild;
+    }
+    return root;
+}
+
 int main()
 {
 
-   int choice;
-   struct node* root;
+    int choice;
+    struct node *root, *ptr;
 
-   while(1)
-   {
-    printf("\nMenu:\n");
-    printf("1. Create BST\n");
-    printf("2. Insert\n");
-    printf("3. Delete\n");
-    printf("4. Get height\n");
-    printf("5. Preorder\n");
-    printf("6. Inorder\n");
-    printf("7. Postorder\n");
-    printf("8. Levelorder\n");
-    printf("9. Exit\n");
-    printf("Enter your choice: ");
-    scanf("%d", &choice);
-    
-    if (choice==1)
+    while (1)
     {
-        root=createBST(root);
+        printf("\nMenu:\n");
+        printf("1. Create BST\n");
+        printf("2. Insert\n");
+        printf("3. Delete\n");
+        printf("4. Get height\n");
+        printf("5. Preorder\n");
+        printf("6. Inorder\n");
+        printf("7. Postorder\n");
+        printf("8. Levelorder\n");
+        printf("9. Max element\n");
+        printf("10. Min element\n");
+        printf("11. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        if (choice == 1)
+        {
+            root = createBST(root);
+        }
+        else if (choice == 2)
+        {
+            int data;
+            printf("Enter element to insert: ");
+            scanf("%d", &data);
+            root = insert(root, data);
+        }
+        else if (choice == 3)
+        {
+            int data;
+            printf("Enter element: ");
+            scanf("%d", &data);
+            root = delete (root, data);
+        }
+        else if (choice == 4)
+        {
+            printf("Height of tree is: %d\n", height(root));
+        }
+        else if (choice == 5)
+        {
+            printf("Preorder: ");
+            preorder(root);
+            printf("\n");
+        }
+        else if (choice == 6)
+        {
+            printf("Inorder: ");
+            inorder(root);
+            printf("\n");
+        }
+        else if (choice == 7)
+        {
+            printf("Postorder: ");
+            postorder(root);
+            printf("\n");
+        }
+        else if (choice == 8)
+        {
+            printf("Levelorder: ");
+            levelorder(root);
+            printf("\n");
+        }
+        else if (choice == 9)
+        {
+        }
+        else if (choice == 9)
+        {
+            ptr = max(root);
+            printf("Max element is: %d\n", ptr->info);
+        }
+        else if (choice == 10)
+        {
+            ptr = min(root);
+            printf("Min element is: %d\n", ptr->info);
+        }
+        else if (choice == 11)
+        {
+            break;
+        }
     }
-    else if (choice==2)
-    {
-        int data;
-        printf("Enter element to insert: ");
-        scanf("%d", &data);
-        root = insert(root, data);
-    }
-    else if (choice==3)
-    {
-        int data;
-        printf("Enter element: ");
-        scanf("%d", &data);
-        root = delete(root, data);
-    }
-    else if (choice==4){
-        printf("Height of tree is: %d\n", height(root));
-    }
-    else if (choice==5){
-        printf("Preorder: ");
-        preorder(root);
-        printf("\n");
-    }
-    else if (choice==6){
-        printf("Inorder: ");
-        inorder(root);
-        printf("\n");
-    }
-    else if (choice==7){
-        printf("Postorder: ");
-        postorder(root);
-        printf("\n");
-    }
-    else if (choice==8){
-        printf("Levelorder: ");
-        levelorder(root);
-        printf("\n");
-    }
-    else if (choice==9){
-        break;
-    }
-   }
-   
 
     deleteAlloc(root);
     return 0;

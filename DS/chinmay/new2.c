@@ -32,11 +32,6 @@ long int eval_postfix();
 
 int main(){
     int result;
-    //printf("Enter the infix expression : ");
-    //scanf("%s",infix);
-    //infixtopostfix();
-    //printf("\nPostfix expression is %s",postfix);
-    //printf("\n");
     printf("enter postfix expression with values: ");
     scanf("%s",postfix);
     printf("%-7s\t\t%-10s\t\t\t\t%-15s\n","Symbol","Stack","FloatStack");
