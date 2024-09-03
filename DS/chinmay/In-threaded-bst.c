@@ -115,16 +115,16 @@ int main(){
         scanf("%d",&choice);
         switch(choice){
             case 1:
-                printf("Enter the key to insert\n");
+                printf("Enter the key to insert: ");
                 scanf("%d",&ikey);
                 root=insert(root,ikey);
                 break;
             case 2:
-                printf("Enter the key to search\n");
+                printf("Enter the key to search:");
                 scanf("%d",&ikey);
                 ptr=search(root,ikey);
                 if(ptr!=NULL)
-                    printf("Key found\n");
+                    printf("\nKey found\n\n");
                 break;
             case 3:
                 exit(0);
