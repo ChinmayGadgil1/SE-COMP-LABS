@@ -86,6 +86,7 @@ struct node* search(struct node* root,int ikey){
     return NULL;
 }
 
+
 void deleteAllocation(struct node* root){
     struct node* ptr=root,*tmp;
     while(ptr!=NULL){
@@ -210,6 +211,45 @@ struct node* delete(struct node* root,int dkey){
         root=case_b(root,par,ptr);
     else
         root=case_a(root,par,ptr);
+    return root;
+}
+
+struct node* inorder(struct node* root){
+    if(root==NULL){
+        printf("Tree is empty\n");
+        return root;
+    }
+    struct node* ptr=root;
+    while(ptr->lthread==false)
+        ptr=ptr->left;
+    while(ptr!=NULL){
+        printf("%d ",ptr->info);
+        ptr=in_succ(ptr);
+    }
+    printf("\n");
+    return root;
+}
+
+struct node* preorder(struct node* root){
+    if(root==NULL){
+        printf("Tree is empty\n");
+        return root;
+    }
+    struct node* ptr=root;
+    while(ptr!=NULL){
+        printf("%d ",ptr->info);
+        if(ptr->lthread==false)
+            ptr=ptr->left;
+        else if(ptr->rthread==false)
+            ptr=ptr->right;
+        else{
+            while(ptr!=NULL && ptr->rthread==true)
+                ptr=ptr->right;
+            if(ptr!=NULL)
+                ptr=ptr->right;
+        }
+    }
+    printf("\n");
     return root;
 }
 
