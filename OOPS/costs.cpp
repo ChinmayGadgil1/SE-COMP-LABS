@@ -24,6 +24,17 @@ class records{
         cout<<"Enter the Provident Fund: ";
         cin>>pf;
     }
+    void display(){
+        cout<<"Employee ID: "<<emp_id<<endl;
+        cout<<"Employee Name: "<<emp_name<<endl;
+        cout<<"Employee Designation: "<<emp_designation<<endl;
+        cout<<"Basic Pay: "<<basic<<endl;
+        cout<<"House Rent Allowance: "<<hra<<endl;
+        cout<<"Dearness Allowance: "<<da<<endl;
+        cout<<"Provident Fund: "<<pf<<endl;
+        cout<<"Gross Salary: "<<gross<<endl;
+        cout<<"Net Salary: "<<net<<endl;
+    }
 
 };
 
