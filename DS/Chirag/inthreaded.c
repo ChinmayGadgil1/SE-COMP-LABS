@@ -82,6 +82,5 @@ struct node* create(struct node *root) {
 int main() {
     struct node* root = NULL;
     root = create(root);
-    // Add code to display or further manipulate the tree if needed
     return 0;
 }
