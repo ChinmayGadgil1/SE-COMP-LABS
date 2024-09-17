@@ -75,57 +75,42 @@ void display() {
 }
 
 int main() {
-    printf("\ninsert(64)\n");
-    insert(64);
-    display();
-    
-    printf("\ninsert(105)\n");
-    insert(105);
-    display();
-    
-    printf("\ninsert(100)\n");
-    insert(100);
-    display();
-    
-    printf("\ninsert(89)\n");
-    insert(89);
-    display();
-    
-    printf("\ninsert(100)\n");
-    insert(100);
-    display();
-    
-    printf("\ndelete()\n");
-    delete();
-    display();
-    
-    printf("\ndelete()\n");
-    delete();
-    display();
-    
-    printf("\ndelete()\n");
-    delete();
-    display();
-    
-    printf("\ndelete()\n");
-    delete();
-    display();
-    
-    printf("\ninsert(27)\n");
-    insert(27);
-    display();
-    
-    printf("\ndelete()\n");
-    delete();
-    display();
-    
-    printf("\ndelete()\n");
-    delete();
-    display();
-    
-    printf("\ninsert(45)\n");
-    insert(45);
-    display();  
+    int choice, item;
+
+    while (1) {
+        printf("1. Insert\n");
+        printf("2. Delete\n");
+        printf("3. Peek\n");
+        printf("4. Display\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter the element to insert: ");
+                scanf("%d", &item);
+                insert(item);
+                break;
+            case 2:
+                item = delete();
+                if (item != INT_MIN) {
+                    printf("Deleted element: %d\n", item);
+                }
+                break;
+            case 3:
+                item = peek();
+                printf("Front element: %d\n", item);
+                break;
+            case 4:
+                display();
+                break;
+            case 5:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
 
     return 0;
 }

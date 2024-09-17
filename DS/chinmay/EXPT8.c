@@ -92,65 +92,43 @@ void display(){
 }
 
 int main(){
-printf("\npush(74)\n");
-push(74);
-display();
+    int choice, item;
+    while (1)
+    {
+        printf("\n\n1. Push");
+        printf("\n2. Pop");
+        printf("\n3. Peek");
+        printf("\n4. Display");
+        printf("\n5. Exit");
+        printf("\nEnter your choice: ");
+        scanf("%d", &choice);
 
-printf("\npush(27)\n");
-push(27);
-display();
-
-printf("\npush(64)\n");
-push(64);
-display();
-
-printf("\npush(20)\n");
-push(20);
-display();
-
-printf("\npop()\n");
-pop();
-display();
-
-printf("\npop()\n");
-pop();
-display();
-
-printf("\npop()\n");
-pop();
-display();
-
-printf("\npush(41)\n");
-push(41);
-display();
-
-printf("\npush(109)\n");
-push(109);
-display();
-
-printf("\npush(84)\n");
-push(84);
-display();
-
-printf("\npop()\n");
-pop();
-display();
-
-printf("\npush(102)\n");
-push(102);
-display();
-
-printf("\npop()\n");
-pop();
-display();
-
-printf("\npop()\n");
-pop();
-display();
-
-printf("\npop()\n");
-pop();
-display();
+        switch (choice)
+        {
+        case 1:
+            printf("\nEnter the element to push: ");
+            scanf("%d", &item);
+            push(item);
+            break;
+        case 2:
+            item = pop();
+            if (item != INT_MIN)
+                printf("\nPopped element: %d", item);
+            break;
+        case 3:
+            item = peek();
+            if (item != INT_MIN)
+                printf("\nTop element: %d", item);
+            break;
+        case 4:
+            display();
+            break;
+        case 5:
+            exit(0);
+        default:
+            printf("\nInvalid choice! Please enter a valid option.");
+        }
+    }
 
 
 

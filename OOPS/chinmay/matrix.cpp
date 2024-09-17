@@ -156,6 +156,9 @@ public:
             cout << endl;
         }
     }
+    ~Matrix(){
+        deallocateMemory();
+    }
 };
 
 int main()

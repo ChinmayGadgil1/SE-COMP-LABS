@@ -158,14 +158,6 @@ if (validParentheses(input))
 else
 {
     printf("\nResult=> Invalid Parentheses\n\n");
-    // printf("Do you want to fix it?: (yes/no)");
-    // scanf("%s",inp);
-    if (1)
-    {
-        fixPar(input);
-        printf("Before: %s\n",input);
-        // printf("After: %s\n",fix);
-    }
 }
 
 return 0;

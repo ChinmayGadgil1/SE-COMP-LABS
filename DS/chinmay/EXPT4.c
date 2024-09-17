@@ -26,7 +26,7 @@ void push(int x)
     }
     top++;
     stackArr[top] = x;
-    printf("push(%d)\n", x);  // Added printf statement
+    printf("push(%d)\n", x);  
 }
 
 int pop()
@@ -38,7 +38,7 @@ int pop()
     }
     int item = stackArr[top];
     top--;
-    printf("pop()\n");  // Added printf statement
+    printf("pop()\n");  
     return item;
 }
 
@@ -66,37 +66,41 @@ void display()
 
 int main()
 {
-    printf("\nInitially:\n");
-    display();
-    push(74);
-    display();
-    push(27);
-    display();
-    push(64);
-    display();
-    push(20);
-    display();
-    pop();
-    display();
-    pop();
-    display();
-    pop();
-    display();
-    push(41);
-    display();
-    push(109);
-    display();
-    push(84);
-    display();
-    pop();
-    display();
-    push(102);
-    display();
-    pop();
-    display();
-    pop();
-    display();
-    pop();
-    display();
+    int choice, item;
+    while (1)
+    {
+        printf("1. Push\n");
+        printf("2. Pop\n");
+        printf("3. Peek\n");
+        printf("4. Display\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice)
+        {
+            case 1:
+                printf("Enter the element to push: ");
+                scanf("%d", &item);
+                push(item);
+                break;
+            case 2:
+                item = pop();
+                printf("Popped element: %d\n", item);
+                break;
+            case 3:
+                item = peek();
+                printf("Top element: %d\n", item);
+                break;
+            case 4:
+                display();
+                break;
+            case 5:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+
     return 0;
 }

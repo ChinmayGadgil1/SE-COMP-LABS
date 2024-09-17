@@ -1,326 +1,154 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include <stdio.h>
+#include <string.h>
 
-struct node{
-    int info;
-    struct node* link;
+struct Name {
+    char firstName[20];
+    char middleName[20];
+    char lastName[20];
 };
 
-void displayList(struct node*);
-void countNodes(struct node*);
-void searchList(struct node*,int);
-struct node* addAtBegin(struct node*,int);
-struct node* addAtEnd(struct node* ,int);
-struct node* createList(struct node*);
-struct node* addAtPos(struct node*,int,int);
-struct node* addAfter(struct node*,int,int);
-struct node* addBefore(struct node*,int,int);
-struct node* deleteNode(struct node*,int);
-struct node* reverse(struct node*);
+struct Subject {
+    char subjectCode[10];
+    int marks;
+    char grade[2];
+    int credits;
+};
 
-int main(){
+struct Semester {
+    int semesterNumber;
+    struct Subject subjects[4];
+    float SGPA;
+};
 
-struct node* start=NULL;
-int choice;
-int item;
-int position;
-int data;
+struct Student {
+    int rollNumber;
+    struct Name fullName;
+    struct Semester semesters[2];
+    float CGPA;
+};
 
-while (1)
-{
-    printf("\n\n1. Create list\n");
-    printf("2. Display list\n");
-    printf("3. Count\n");
-    printf("4. Search list\n");
-    printf("5. Add at Beginning\n");
-    printf("6. Add at End\n");
-    printf("7. Add after Node\n");
-    printf("8. Add before Node\n");
-    printf("9. Add at position\n");
-    printf("10. Delete Node\n");
-    printf("11. Reverse List\n");
-    printf("12. Quit\n");
-    printf("Your choice=> ");
-    scanf("%d",&choice);
-    switch (choice)
-    {
-    case 1:
-        start=createList(start);
-        break;
-    
-    case 2:
-        displayList(start);
-        break;
-    case 3: 
-        countNodes(start);
-        break;
-    case 4:
-        printf("Enter element to be searched: ");
-        scanf("%d",&item);
-        searchList(start,item);
-        break;
-    case 5:
-        printf("Enter data to be added at beginning: ");
-        scanf("%d",&data);
-        start=addAtBegin(start,data);
-        break;
-    case 6:
-        printf("Enter data to be added at end: ");
-        scanf("%d",&data);
-        start=addAtEnd(start,data);
-        break;
-    case 7:
-        printf("Enter the data and item after which to insert: ");
-        scanf("%d %d",&data,&item);
-        start=addAfter(start,data,item);
-        break;
-    case 8:
-        printf("Enter the data and item before which to insert: ");
-        scanf("%d %d",&data,&item);
-        start=addBefore(start,data,item);
-        break;
-    case 9:
-        printf("Enter the data and position to insert: ");
-        scanf("%d %d",&data,&position);
-        start=addAtPos(start,data,position);
-        break;
-    case 10:
-        printf("Enter the item to be deleted: ");
-        scanf("%d",&data);
-        start=deleteNode(start,data);
-        break;
-    case 11:
-        start=reverse(start);
-        break;
-    case 12:
-        printf("\nQuiting...\n");
-        exit(1);
-    default:
-        printf("Invalid input try again\n");
+char calculateGrade(int marks) {
+    if (marks >= 85) {
+        return 'O';
+    } else if (marks >= 75) {
+        return 'A';
+    } else if (marks >= 65) {
+        return 'B';
+    } else if (marks >= 55) {
+        return 'C';
+    } else if (marks >= 45) {
+        return 'D';
+    } else {
+        return 'F';
     }
-
 }
 
-
-return 0;
+int gradeToPoints(char grade) {
+    switch (grade) {
+        case 'O': return 10;
+        case 'A': return 9;
+        case 'B': return 8;
+        case 'C': return 7;
+        case 'D': return 6;
+        case 'F': return 0;
+        default: return 0;
+    }
 }
 
-
-void displayList(struct node* start){
-    if (start==NULL)    
-    {
-        printf("List Empty\n");
-        return;
+float calculateSGPA(struct Semester *semester) {
+    int totalCredits = 0;
+    int totalPoints = 0;
+    for (int i = 0; i < 4; i++) {
+        int gradePoints = gradeToPoints(semester->subjects[i].grade[0]);
+        totalPoints += gradePoints * semester->subjects[i].credits;
+        totalCredits += semester->subjects[i].credits;
     }
-    struct node *p=start;
-
-    printf("\nYour list:\n");
-    while (p!=NULL)
-    {
-        printf("%d ",p->info);
-        p=p->link;
-    }
-    return;  
+    return (float) totalPoints / totalCredits;
 }
 
-void countNodes(struct node* start){
-    int count=0;
-    struct node* p=start;
-    while (p!=NULL)
-    {
-        count++;
-        p=p->link;
+float calculateCGPA(struct Student *student) {
+    float totalSGPA = 0;
+    for (int i = 0; i < 2; i++) {
+        totalSGPA += student->semesters[i].SGPA;
     }
-    printf("\nNumber of Node=%d\n",count);
-    return;
+    return totalSGPA / 2.0;
 }
 
-void searchList(struct node* start,int item){
-    if (start==NULL)
-    {
-        printf("\nList is Empty, Element not found\n");
+void inputStudentData(struct Student *student) {
+    printf("Enter student's full name: ");
+    scanf("%19s%19s%19s", student->fullName.firstName,student->fullName.middleName,student->fullName.lastName);
+    printf("Enter student's roll number: ");
+    scanf("%d", &student->rollNumber);
 
-    }
-    int pos=1;
-    struct node* p=start;
-    while (p!=NULL)
-    {
-        if(p->info==item)
-        {
-            printf("\nElement %d found at position %d\n",item,pos);
-            return;
+    for (int sem = 0; sem < 2; sem++) {
+        printf("Enter subjects and marks for semester %d\n", sem + 1);
+        for (int i = 0; i < 4; i++) {
+            printf("Enter subject %d code: ", i + 1);
+            scanf("%9s", student->semesters[sem].subjects[i].subjectCode);
+            printf("Enter subject %d marks: ", i + 1);
+            scanf("%d", &student->semesters[sem].subjects[i].marks);
+            printf("Enter subject %d credits: ", i + 1);
+            scanf("%d", &student->semesters[sem].subjects[i].credits);
+            student->semesters[sem].subjects[i].grade[0] = calculateGrade(student->semesters[sem].subjects[i].marks);
+            student->semesters[sem].subjects[i].grade[1] = '\0';
         }
-            pos++;
-            p=p->link;
-    }
-    
-    printf("\nElement not found\n");
-
-}
-
-struct node* addAtBegin(struct node* start,int data){
-    struct node* tmp;
-    tmp=(struct node*)malloc(sizeof(struct node));
-    tmp->info=data;
-    tmp->link=start;
-    start=tmp;
-    return start;
-}
-
-struct node* addAtEnd(struct node* start,int data){
-    struct node* tmp;
-    tmp=(struct node*)malloc(sizeof(struct node));
-    tmp->info=data;
-    
-    struct node* p=start;
-
-    while (p->link!=NULL)
-    {
-        p=p->link;
-    }
-    
-    p->link=tmp;
-    tmp->link=NULL;
-
-    return start;
-}
-
-struct node* createList(struct node* start){
-
-    int n,data;
-    printf("Enter the number of nodes: ");
-    scanf("%d",&n);
-    start=NULL;
-    if (n==0)
-    {
-        return start;
+        student->semesters[sem].SGPA = calculateSGPA(&student->semesters[sem]);
     }
 
-    printf("Enter element: ");
-    scanf("%d",&data);
-    start=addAtBegin(start,data);
-    for (int i = 1 ; i < n; i++)
-    {
-        printf("Enter element: ");
-        scanf("%d",&data);
-        start=addAtEnd(start,data);
-    }
-    
-    return start;
+    student->CGPA = calculateCGPA(student);
 }
 
+void displayStudentData(struct Student student) {
+    printf("\nStudent Information:\n");
+    printf("\nName: %s %s %s\n", student.fullName.firstName, student.fullName.middleName, student.fullName.lastName);
+    printf("Roll No: %d\n", student.rollNumber);
 
-
-struct node* addAfter(struct node* start,int data,int item){
-    struct node* tmp,*p=start;
-    while (p!=NULL)
-    {
-        if(p->info==item)
-        {
-            tmp=(struct node*)malloc(sizeof(struct node));
-            tmp->info=data;
-            tmp->link=p->link;
-            p->link=tmp;
-            return start;
+        printf("\n\t\tSemester 1\t\t\t\t\tSemester 2\n");
+        printf("%-15s%-10s%-10s%-10s", "Subject Code", "Marks", "Grade", "Credits");
+        printf("\t%-15s%-10s%-10s%-10s\n", "Subject Code", "Marks", "Grade", "Credits");
+        printf("------------------------------------------\t------------------------------------------\n");
+        for (int i = 0; i < 4; i++) {
+            printf("%-15s%-10d%-10s%-10d", student.semesters[0].subjects[i].subjectCode, student.semesters[0].subjects[i].marks, student.semesters[0].subjects[i].grade, student.semesters[0].subjects[i].credits);
+            printf("\t%-15s%-10d%-10s%-10d\n", student.semesters[1].subjects[i].subjectCode, student.semesters[1].subjects[i].marks, student.semesters[1].subjects[i].grade, student.semesters[1].subjects[i].credits);
         }
-        p=p->link;
-    }
-    printf("\nItem not found\n");
-    return start;
+        printf("------------------------------------------\t------------------------------------------\n");
+        printf("SGPA sem1: %.2f\t\t\t\t\tSGPA sem2 %.2f\n", student.semesters[0].SGPA,student.semesters[1].SGPA);
+
+    printf("\nCGPA: %.2f\n", student.CGPA);
 }
 
-struct node * addBefore(struct node* start,int data,int item){
-    struct node* tmp,*p=start;
-    if (start==NULL)
-    {
-        printf("\nList is Empty\n");
-        return start;
-    }
-    if (start->info==item){
-        tmp=(struct node*)malloc(sizeof(struct node));
-        tmp->info=data;
-        tmp->link=start;
-        start=tmp;
-        return start;
-    }
-    while (p->link!=NULL)
-    {
-        if(p->link->info==item){
-            tmp=(struct node*)malloc(sizeof(struct node));
-            tmp->info=data;
-            tmp->link=p->link;
-            p->link=tmp;
-            return start;
+void displayMenu() {
+    
+}
+
+int main() {
+    
+    struct Student student;
+    int numStudents = 0;
+    int choice;
+
+    while (1) {
+        printf("\nMenu:\n");
+        printf("1. Add student data\n");
+        printf("2. Display Data\n");
+        printf("3. Quit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                    inputStudentData(&student);
+                break;
+            case 2:
+                    displayStudentData(student);
+                break;
+            case 3:
+                printf("Exiting...\n");
+                return 0;
+            default:
+                printf("Invalid choice. Please try again.\n");
         }
-        p=p->link;
-    }
-    printf("\nItem not found\n");
-    return start;
-}
-
-struct node* addAtPos(struct node* start,int data,int pos){
-    struct node* tmp,*p=start;
-    if(pos==1){
-        tmp=(struct node*)malloc(sizeof(struct node));
-        tmp->info=data;
-        tmp->link=start;
-        start=tmp;
-        return start;
-    }
-    for (int i = 1; i < pos-1 && p!=NULL; i++){
-        p=p->link;
     }
 
-    if(p==NULL){
-        printf("\nThere are less elements than position\n");
-        return start;
-    }
-    tmp=(struct node*)malloc(sizeof(struct node));
-    tmp->info=data;
-    tmp->link=p->link;
-    p->link=tmp;
-    return start;
-}
-
-struct node* deleteNode(struct node* start,int data){
-    struct node* tmp,*p=start;
-
-    if(start==NULL){
-        printf("\nList is empty\n");
-        return start;
-    }
-    if(start->info==data){
-        tmp=start;
-        start=start->link;
-        free(tmp);
-        return start;
-    }
-
-    while(p->link!=NULL){
-        if(p->link->info==data){
-            tmp=p->link;
-            p->link=tmp->link;
-            free(tmp);
-            return start;
-        }
-        p=p->link;
-    }
-    printf("\ndata not found\n");
-    return start;
-}
-
-struct node* reverse(struct node* start){
-    struct node* prev,*ptr,*next;
-    prev=NULL;
-    ptr=start;
-
-    while (ptr!=NULL)
-    {
-        next=ptr->link;
-        ptr->link=prev;
-        prev=ptr;
-        ptr=next;
-    }
-    start=prev;
-    return start;
+    return 0;
 }

@@ -259,7 +259,7 @@ int main(){
     int choice,ikey;
     struct node* ptr;
     while(1){
-        printf("1.Insert\n2.Search\n3.Delete\n4.Exit\n");
+        printf("1.Insert\n2.Search\n3.Delete\n4.Inorder\n5.Preorder\n6.Exit\n");
         scanf("%d",&choice);
         switch(choice){
             case 1:
@@ -280,6 +280,13 @@ int main(){
                 root=delete(root,ikey);
                 break;
             case 4:
+
+                root=inorder(root);
+                break;
+            case 5:
+                root=preorder(root);
+                break;
+            case 6:
                 exit(0);
             default:
                 printf("Invalid choice\n");
