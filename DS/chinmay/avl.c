@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 struct node
 {
@@ -112,6 +113,7 @@ struct node *insert_right_balance(struct node *pptr)
         pptr->rchild = rightrotate(aptr);
         pptr = leftrotate(pptr);
     }
+    return pptr;  // Add missing return statement
 }
 
 struct node *insert_right_check(struct node *pptr, int *taller)
@@ -179,24 +181,172 @@ void inorder(struct node *ptr)
     }
 }
 
-void preorder(struct node *ptr){
-    if(ptr!=NULL){
-        printf("%d ",ptr->info);
+struct node *delete_right_balance(struct node *root)
+{
+    struct node *aptr, *bptr;
+    struct node *tmp = root->rchild;
+    if (tmp->balance == -1)
+    {
+        root->balance = 0;
+        tmp->balance = 0;
+        root = leftrotate(root);
+    }
+    else
+    {
+        aptr = tmp->lchild;
+        switch (aptr->balance)
+        {
+        case -1:
+            root->balance = 0;
+            tmp->balance = 1;
+            break;
+        case 1:
+            root->balance = -1;
+            tmp->balance = 0;
+            break;
+        case 0:
+            root->balance = 0;
+            tmp->balance = 0;
+            break;
+        }
+        aptr->balance = 0;
+        root->rchild = rightrotate(tmp);
+        root = leftrotate(root);
+    }
+    return root;
+}
+
+struct node *delete_left_check(struct node *root, int *shorter)
+{
+    switch (root->balance)
+    {
+    case 0:
+        root->balance = -1;
+        *shorter = 0;
+        break;
+    case 1:
+        root->balance = 0;
+        break;
+    case -1:
+        root = delete_right_balance(root);
+        if (root->balance != 0)
+        {
+            *shorter = 0;
+        }
+        break;
+    }
+    return root;
+}
+
+struct node *delete_right_check(struct node *root, int *shorter)
+{
+    switch (root->balance)
+    {
+    case 0:
+        root->balance = 1;
+        *shorter = 0;
+        break;
+    case -1:
+        root->balance = 0;
+        break;
+    case 1:
+        root = delete_right_balance(root);
+        if (root->balance != 0)
+        {
+            *shorter = 0;
+        }
+        break;
+    }
+    return root;
+}
+
+struct node *delete (struct node *root, int dkey)
+{
+    static int shorter;
+    struct node *tmp;
+    if (root == NULL)
+    {
+        printf("Key not present\n");
+        return root;
+    }
+    if (dkey < root->info)
+    {
+        root->lchild = delete (root->lchild, dkey);
+        if (shorter == 1)
+        {
+            root = delete_left_check(root, &shorter);
+        }
+    }
+    else if (dkey > root->info)
+    {
+        root->rchild = delete (root->rchild, dkey);
+        if (shorter == 1)
+        {
+            root = delete_right_check(root, &shorter);
+        }
+    }
+    else
+    {
+        if (root->lchild != NULL && root->rchild != NULL)
+        {
+            tmp = root->rchild;
+            while (tmp->lchild != NULL)
+            {
+                tmp = tmp->lchild;
+            }
+            root->info = tmp->info;
+            root->rchild = delete (root->rchild, tmp->info);
+            if (shorter == 1)
+            {
+                root = delete_right_check(root, &shorter);
+            }
+        }
+        else
+        {
+            tmp = root;
+            if (root->lchild != NULL)
+            {
+                root = root->lchild;
+            }
+            else if (root->rchild != NULL)
+            {
+                root = root->rchild;
+            }
+            else
+            {
+                root = NULL;
+            }
+            free(tmp);
+            shorter = 1;
+        }
+    }
+    return root;
+}
+
+void preorder(struct node *ptr)
+{
+    if (ptr != NULL)
+    {
+        printf("%d ", ptr->info);
         preorder(ptr->lchild);
         preorder(ptr->rchild);
     }
 }
 
-void postorder(struct node *ptr){
-    if(ptr!=NULL){
+void postorder(struct node *ptr)
+{
+    if (ptr != NULL)
+    {
         postorder(ptr->lchild);
         postorder(ptr->rchild);
-        printf("%d ",ptr->info);
+        printf("%d ", ptr->info);
     }
-
 }
-void freeMemory(struct node *ptr) {
-    if (ptr != NULL) {
+
+void freeMemory(struct node *ptr)
+{
+    if (ptr != NULL)
+    {
         freeMemory(ptr->lchild);
         freeMemory(ptr->rchild);
         free(ptr);
@@ -215,7 +365,8 @@ int main()
         printf("2. Inorder Traversal\n");
         printf("3. Preorder Traversal\n");
         printf("4. Postorder Traversal\n");
-        printf("5. Exit\n");
+        printf("5. Delete\n");
+        printf("6. Exit\n");
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
@@ -242,6 +393,11 @@ int main()
             printf("\n");
             break;
         case 5:
+            printf("Enter the key to delete: ");
+            scanf("%d", &key);
+            root = delete(root, key);
+            break;
+        case 6:
             freeMemory(root);
             printf("Exiting...\n");
             break;
@@ -249,8 +405,8 @@ int main()
             printf("Invalid choice. Please try again.\n");
             break;
         }
-    } while (choice != 5);
-    
-    freeMemory(root);   
+    } while (choice != 6);
+
+    freeMemory(root);
     return 0;
 }
