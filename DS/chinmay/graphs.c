@@ -104,6 +104,11 @@ void BFS_traversal(){
     int v;
     scanf("%d",&v);
     BFS(v);
+    for(int i=0;i<n;i++){
+        if(state[i]==initial){
+            BFS(i);
+        }
+    }
     printf("\n");
 }
     

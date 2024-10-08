@@ -10,36 +10,17 @@ struct Item {
 };
 
 void printLine() {
-    cout.fill('-');
-    cout.width(72);
-    cout << "\n";
-    cout.fill(' ');
+    cout << setfill('-') << setw(72) << "-" << setfill(' ') << "\n";
 }
 
 void printHeader() {
     printLine();
-    cout << "|";
-    cout.width(18);
-    cout << "NAME";
-    cout.width(18);
-    cout << "CODE";
-    cout.width(18);
-    cout << "COST";
-    cout.width(17);
-    cout << "|\n";
+    cout << "|" << setw(18) << "NAME" << setw(18) << "CODE" << setw(18) << "COST" << setw(17) << "|\n";
     printLine();
 }
 
 void printItem(const Item& item) {
-    cout << "|";
-    cout.width(21);
-    cout << item.name;
-    cout.width(15);
-    cout << item.code;
-    cout.width(19);
-    cout << fixed << setprecision(2) << item.cost;
-    cout.width(16);
-    cout << "|\n";
+    cout << "|" << setw(21) << item.name << setw(15) << item.code << setw(19) << fixed << setprecision(2) << item.cost << setw(16) << "|\n";
 }
 
 void printMenu() {
