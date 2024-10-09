@@ -13,12 +13,12 @@ int n;
 int stackArr[MAX];
 int top = -1;
 
-int isFull()
+int stackisFull()
 {
     return (top == MAX - 1);
 }
 
-int isEmpty()
+int stackisEmpty()
 {
     return (top == -1);
 }
@@ -26,26 +26,24 @@ int isEmpty()
 
 void push(int x)
 {
-    if (isFull())
+    if (stackisFull())
     {
         printf("Stack Overflow\n");
         return;
     }
     top++;
     stackArr[top] = x;
-    printf("push(%d)\n", x);  
 }
 
 int pop()
 {
-    if (isEmpty())
+    if (stackisEmpty())
     {
         printf("Stack Underflow\n");
         exit(1);
     }
     int item = stackArr[top];
-    top--;
-    printf("pop()\n");  
+    top--; 
     return item;
 }
 
@@ -152,27 +150,10 @@ void BFS_traversal(){
     printf("\n");
 }
 
-void DFS_traversalNR(){
-    for (int v = 0; v < n; v++)
-    {
-        state[v]=initial;
-    }
-    printf("Enter starting vertex for DFS: ");
-    int v;
-    scanf("%d",&v);
-    DFS(v);
-    for(int i=0;i<n;i++){
-        if(state[i]==initial){
-            DFSNR(i);
-        }
-    }
-    printf("\n");
-}
-
 void DFSNR(int v){
     push(v);
     state[v]=waiting;
-    while(!isEmpty()){
+    while(!stackisEmpty()){
         v=pop();
         printf("%d ",v);
         state[v]=visited;
@@ -185,7 +166,7 @@ void DFSNR(int v){
     }
 }
 
-void DFS_traversalR(){
+void DFS_traversalNR(){
     for (int v = 0; v < n; v++)
     {
         state[v]=initial;
@@ -193,10 +174,10 @@ void DFS_traversalR(){
     printf("Enter starting vertex for DFS: ");
     int v;
     scanf("%d",&v);
-    DFS(v);
+    DFSNR(v);
     for(int i=0;i<n;i++){
         if(state[i]==initial){
-            DFSR(i);
+            DFSNR(i);
         }
     }
     printf("\n");
@@ -212,6 +193,22 @@ void DFSR(int v){
     }
 }
 
+void DFS_traversalR(){
+    for (int v = 0; v < n; v++)
+    {
+        state[v]=initial;
+    }
+    printf("Enter starting vertex for DFS: ");
+    int v;
+    scanf("%d",&v);
+    DFSR(v);
+    for(int i=0;i<n;i++){
+        if(state[i]==initial){
+            DFSR(i);
+        }
+    }
+    printf("\n");
+}
     
 
 int main(){
@@ -220,7 +217,9 @@ int choice;
 while(1){
     printf("1. Create graph\n");
     printf("2. BFS Traversal\n");
-    printf("3. Exit\n");
+    printf("3. DFS Traversal (Non-Recursive)\n");
+    printf("4. DFS Traversal (Recursive)\n");
+    printf("5. Exit\n");
     printf("Enter your choice: ");
     scanf("%d",&choice);
     switch (choice)
@@ -232,6 +231,12 @@ while(1){
         BFS_traversal();
         break;
     case 3:
+        DFS_traversalNR();
+        break;
+    case 4:
+        DFS_traversalR();
+        break;
+    case 5:
         exit(1);
     default:
         printf("Invalid choice\n");
