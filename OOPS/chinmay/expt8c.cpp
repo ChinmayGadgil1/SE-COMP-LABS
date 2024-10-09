@@ -38,6 +38,14 @@ class Vector{
             for(int i = 0; i < (newSize < size ? newSize : size); i++){
                 newVec[i] = vec[i];
             }
+            if(newSize>size){
+                cout<<"Enter "<<newSize-size<<" elements:\n";
+                for (int i = size; i < newSize; i++)
+                {
+                    cin>>newVec[i];
+                }
+                
+            }
             delete[] vec;
             vec = newVec;
             size = newSize;
@@ -85,8 +93,6 @@ int main()
                         vec.displayVector();
                         break;
                     case 2:
-                        cout << "Enter index and new value: ";
-                        cin >> index >> size;
                         vec.modifyElement();
                         break;
                     case 3:
@@ -129,7 +135,6 @@ int main()
                         vec.displayVector();
                         break;
                     case 2:
-
                         vec.modifyElement();
                         break;
                     case 3:
@@ -172,7 +177,6 @@ int main()
                         vec.displayVector();
                         break;
                     case 2:
-                       
                         vec.modifyElement();
                         break;
                     case 3:

@@ -10,6 +10,46 @@ int adj[MAX][MAX];
 int state[MAX];
 int n;
 
+int stackArr[MAX];
+int top = -1;
+
+int isFull()
+{
+    return (top == MAX - 1);
+}
+
+int isEmpty()
+{
+    return (top == -1);
+}
+
+
+void push(int x)
+{
+    if (isFull())
+    {
+        printf("Stack Overflow\n");
+        return;
+    }
+    top++;
+    stackArr[top] = x;
+    printf("push(%d)\n", x);  
+}
+
+int pop()
+{
+    if (isEmpty())
+    {
+        printf("Stack Underflow\n");
+        exit(1);
+    }
+    int item = stackArr[top];
+    top--;
+    printf("pop()\n");  
+    return item;
+}
+
+
 int front=-1,rear=-1;
 
 int queueArr[MAX];
@@ -111,6 +151,67 @@ void BFS_traversal(){
     }
     printf("\n");
 }
+
+void DFS_traversalNR(){
+    for (int v = 0; v < n; v++)
+    {
+        state[v]=initial;
+    }
+    printf("Enter starting vertex for DFS: ");
+    int v;
+    scanf("%d",&v);
+    DFS(v);
+    for(int i=0;i<n;i++){
+        if(state[i]==initial){
+            DFSNR(i);
+        }
+    }
+    printf("\n");
+}
+
+void DFSNR(int v){
+    push(v);
+    state[v]=waiting;
+    while(!isEmpty()){
+        v=pop();
+        printf("%d ",v);
+        state[v]=visited;
+        for(int i=0;i<n;i++){
+            if(adj[v][i]==1 && state[i]==initial){
+                push(i);
+                state[i]=waiting;
+            }
+        }
+    }
+}
+
+void DFS_traversalR(){
+    for (int v = 0; v < n; v++)
+    {
+        state[v]=initial;
+    }
+    printf("Enter starting vertex for DFS: ");
+    int v;
+    scanf("%d",&v);
+    DFS(v);
+    for(int i=0;i<n;i++){
+        if(state[i]==initial){
+            DFSR(i);
+        }
+    }
+    printf("\n");
+}
+
+void DFSR(int v){
+    printf("%d ",v);
+    state[v]=visited;
+    for(int i=0;i<n;i++){
+        if(adj[v][i]==1 && state[i]==initial){
+            DFSR(i);
+        }
+    }
+}
+
     
 
 int main(){
