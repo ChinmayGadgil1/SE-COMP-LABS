@@ -4,7 +4,6 @@
 #include <algorithm>
 using namespace std;
 
-
 void writeToFile(const string& filename, const vector<int>& elements) {
     ofstream outFile(filename);
     for (int element : elements) {
@@ -25,8 +24,25 @@ vector<int> readFromFile(const string& filename) {
 }
 
 int main() {
-    vector<int> file1Elements = {5, 2, 9, 1, 6};
-    vector<int> file2Elements = {8, 3, 7};
+    vector<int> file1Elements;
+    vector<int> file2Elements;
+    int n, element;
+
+    cout << "Enter the number of elements for file1: ";
+    cin >> n;
+    cout << "Enter the elements for file1: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> element;
+        file1Elements.push_back(element);
+    }
+
+    cout << "Enter the number of elements for file2: ";
+    cin >> n;
+    cout << "Enter the elements for file2: ";
+    for (int i = 0; i < n; ++i) {
+        cin >> element;
+        file2Elements.push_back(element);
+    }
 
     writeToFile("file1.txt", file1Elements);
     writeToFile("file2.txt", file2Elements);
