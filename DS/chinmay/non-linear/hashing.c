@@ -80,7 +80,59 @@ void display(struct Record table[]){
 }
 
 int main(){
+    struct Record table[MAX];
+    for (int i = 0; i < MAX; i++) {
+        table[i].status = EMPTY;
+    }
 
+    int choice, key;
+    struct Employee emp;
+
+    while (1) {
+        printf("\nMenu:\n");
+        printf("1. Insert\n");
+        printf("2. Search\n");
+        printf("3. Delete\n");
+        printf("4. Display\n");
+        printf("5. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter Employee ID: ");
+                scanf("%d", &emp.empid);
+                printf("Enter Name: ");
+                scanf("%s", emp.name);
+                printf("Enter Age: ");
+                scanf("%d", &emp.age);
+                insert(emp, table);
+                break;
+            case 2:
+                printf("Enter Employee ID to search: ");
+                scanf("%d", &key);
+                int loc = search(key, table);
+                if (loc == -1) {
+                    printf("Record not found\n");
+                } else {
+                    printf("Record found at location %d\n", loc);
+                }
+                break;
+            case 3:
+                printf("Enter Employee ID to delete: ");
+                scanf("%d", &key);
+                delete(key, table);
+                break;
+            case 4:
+                display(table);
+                break;
+            case 5:
+                return 0;
+            default:
+                printf("Invalid choice\n");
+        }
+    }
+                
 
 
 return 0;
