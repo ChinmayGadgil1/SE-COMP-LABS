@@ -1,124 +1,138 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
-#include <vector>
-#include <string>
-
 using namespace std;
 
-// Structure to hold student data
 struct Student {
     string id;
     string name;
     string grade;
 };
 
-// Function to read student records from a CSV file
-vector<Student> readRecords(const string& filename) {
-    vector<Student> students;
-    ifstream file(filename);
-    string line, word;
-
+void displayRecords() {
+    ifstream file("students.csv");
+    string line;
+    cout << "ID, Name, Grade\n";
     while (getline(file, line)) {
-        stringstream s(line);
-        Student student;
-        getline(s, student.id, ',');
-        getline(s, student.name, ',');
-        getline(s, student.grade, ',');
-        students.push_back(student);
-    }
-    file.close();
-    return students;
-}
-
-// Function to write student records to a CSV file
-void writeRecords(const string& filename, const vector<Student>& students) {
-    ofstream file(filename);
-    for (const auto& student : students) {
-        file << student.id << "," << student.name << "," << student.grade << "\n";
+        cout << line << endl;
     }
     file.close();
 }
 
-// Function to add a new student record
-void addRecord(vector<Student>& students) {
+void addRecord() {
+    ofstream file("students.csv", ios::app);
     Student student;
-    cout << "Enter student ID: ";
+    cout << "Enter ID: ";
     cin >> student.id;
-    cout << "Enter student name: ";
+    cout << "Enter Name: ";
     cin.ignore();
     getline(cin, student.name);
-    cout << "Enter student grade: ";
+    cout << "Enter Grade: ";
     cin >> student.grade;
-    students.push_back(student);
+
+    file << student.id << "," << student.name << "," << student.grade << endl;
+    file.close();
+    cout << "Record added successfully.\n";
 }
 
-// Function to edit an existing student record
-void editRecord(vector<Student>& students) {
-    string id;
-    cout << "Enter student ID to edit: ";
+void editRecord() {
+    ifstream file("students.csv");
+    ofstream tempFile("temp.csv");
+    Student student;
+    string line, id;
+    bool found = false;
+
+    cout << "Enter ID of the student to edit: ";
     cin >> id;
-    for (auto& student : students) {
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        getline(ss, student.id, ',');
+        getline(ss, student.name, ',');
+        getline(ss, student.grade, ',');
+
         if (student.id == id) {
-            cout << "Enter new name: ";
+            cout << "Enter new Name: ";
             cin.ignore();
             getline(cin, student.name);
-            cout << "Enter new grade: ";
+            cout << "Enter new Grade: ";
             cin >> student.grade;
-            return;
+            found = true;
         }
+
+        tempFile << student.id << "," << student.name << "," << student.grade << endl;
     }
-    cout << "Student ID not found.\n";
+
+    file.close();
+    tempFile.close();
+
+    remove("students.csv");
+    rename("temp.csv", "students.csv");
+
+    if (found) {
+        cout << "Record updated successfully.\n";
+    } else {
+        cout << "Record with ID " << id << " not found.\n";
+    }
 }
 
-// Function to delete a student record
-void deleteRecord(vector<Student>& students) {
-    string id;
-    cout << "Enter student ID to delete: ";
+void deleteRecord() {
+    ifstream file("students.csv");
+    ofstream tempFile("temp.csv");
+    Student student;
+    string line, id;
+    bool found = false;
+
+    cout << "Enter ID of the student to delete: ";
     cin >> id;
-    for (auto it = students.begin(); it != students.end(); ++it) {
-        if (it->id == id) {
-            students.erase(it);
-            cout << "Record deleted.\n";
-            return;
+
+    while (getline(file, line)) {
+        stringstream ss(line);
+        getline(ss, student.id, ',');
+        getline(ss, student.name, ',');
+        getline(ss, student.grade, ',');
+
+        if (student.id != id) {
+            tempFile << student.id << "," << student.name << "," << student.grade << endl;
+        } else {
+            found = true;
         }
     }
-    cout << "Student ID not found.\n";
+
+    file.close();
+    tempFile.close();
+
+    remove("students.csv");
+    rename("temp.csv", "students.csv");
+
+    if (found) {
+        cout << "Record deleted successfully.\n";
+    } else {
+        cout << "Record with ID " << id << " not found.\n";
+    }
 }
 
-// Main function
 int main() {
-    string filename = "students.csv";
-    vector<Student> students = readRecords(filename);
     int choice;
-
     do {
-        cout << "\nStudent Records Management\n";
-        cout << "1. Add Record\n";
-        cout << "2. Edit Record\n";
-        cout << "3. Delete Record\n";
-        cout << "4. Exit\n";
+        cout << "\nStudent Records Management System\n";
+        cout << "1. Display Records\n";
+        cout << "2. Add Record\n";
+        cout << "3. Edit Record\n";
+        cout << "4. Delete Record\n";
+        cout << "5. Exit\n";
         cout << "Enter your choice: ";
         cin >> choice;
 
         switch (choice) {
-            case 1:
-                addRecord(students);
-                break;
-            case 2:
-                editRecord(students);
-                break;
-            case 3:
-                deleteRecord(students);
-                break;
-            case 4:
-                writeRecords(filename, students);
-                cout << "Exiting...\n";
-                break;
-            default:
-                cout << "Invalid choice. Please try again.\n";
+            case 1: displayRecords(); break;
+            case 2: addRecord(); break;
+            case 3: editRecord(); break;
+            case 4: deleteRecord(); break;
+            case 5: cout << "Exiting...\n"; break;
+            default: cout << "Invalid choice. Try again.\n";
         }
-    } while (choice != 4);
+    } while (choice != 5);
 
     return 0;
 }

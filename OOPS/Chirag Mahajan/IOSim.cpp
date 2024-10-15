@@ -19,6 +19,14 @@ string getInput(const string& prompt) {
     return input;
 }
 
+float getFloatInput(const string& prompt) {
+    float input;
+    cout << prompt;
+    cin >> input;
+    cin.ignore();
+    return input;
+}
+
 string generateBillNumber() {
     srand(time(0));
     int billNum = rand() % 100000;
@@ -40,37 +48,37 @@ void generateSalarySlip() {
     string empName = getInput("Enter Employee Name: ");
     string grade = getInput("Enter Grade: ");
     string empNo = getInput("Enter Employee No.: ");
-    string daysPresent = getInput("Enter No. of days present: ");
-    string basicSalary = getInput("Enter Basic Salary: ");
+    int daysPresent = getFloatInput("Enter No. of days present: ");
+    float basicSalary = getFloatInput("Enter Basic Salary: ");
     
-    string basic = getInput("Enter BASIC payment: ");
-    string da = getInput("Enter DA payment: ");
-    string hra = getInput("Enter HRA payment: ");
-    string cca = getInput("Enter CCA payment: ");
-    string dda = getInput("Enter DDA payment: ");
-    string arrears = getInput("Enter ARREARS payment: ");
-    string adhocAlw = getInput("Enter ADHOC.ALW payment: ");
-    string totalPay = getInput("Enter TOTAL PAY: ");
+    float basic = getFloatInput("Enter BASIC payment: ");
+    float da = getFloatInput("Enter DA payment: ");
+    float hra = getFloatInput("Enter HRA payment: ");
+    float cca = getFloatInput("Enter CCA payment: ");
+    float dda = getFloatInput("Enter DDA payment: ");
+    float arrears = getFloatInput("Enter ARREARS payment: ");
+    float adhocAlw = getFloatInput("Enter ADHOC.ALW payment: ");
+    float totalPay = getFloatInput("Enter TOTAL PAY: ");
     
-    string pf = getInput("Enter PF deduction: ");
-    string fpf = getInput("Enter FPF deduction: ");
-    string vpf = getInput("Enter VPF deduction: ");
-    string befund = getInput("Enter BEFUND deduction: ");
-    string pTax = getInput("Enter P.TAX deduction: ");
-    string canteen = getInput("Enter CANTEEN deduction: ");
-    string welfare = getInput("Enter WELFARE deduction: ");
-    string totalDed = getInput("Enter TOTAL DED: ");
+    float pf = getFloatInput("Enter PF deduction: ");
+    float fpf = getFloatInput("Enter FPF deduction: ");
+    float vpf = getFloatInput("Enter VPF deduction: ");
+    float befund = getFloatInput("Enter BEFUND deduction: ");
+    float pTax = getFloatInput("Enter P.TAX deduction: ");
+    float canteen = getFloatInput("Enter CANTEEN deduction: ");
+    float welfare = getFloatInput("Enter WELFARE deduction: ");
+    float totalDed = getFloatInput("Enter TOTAL DED: ");
     
-    string lic = getInput("Enter LIC recovery: ");
-    string ccubeContr = getInput("Enter CCUBE CONTR. recovery: ");
-    string societyAdv = getInput("Enter SOCIETY ADV recovery: ");
-    string rentRecv = getInput("Enter RENT RECV recovery: ");
-    string pfLoan = getInput("Enter PF LOAN recovery: ");
-    string salaryAdv = getInput("Enter SALARY ADV recovery: ");
-    string tourAdv = getInput("Enter TOUR ADV recovery: ");
-    string totalRecv = getInput("Enter TOTAL RECV: ");
+    float lic = getFloatInput("Enter LIC recovery: ");
+    float ccubeContr = getFloatInput("Enter CCUBE CONTR. recovery: ");
+    float societyAdv = getFloatInput("Enter SOCIETY ADV recovery: ");
+    float rentRecv = getFloatInput("Enter RENT RECV recovery: ");
+    float pfLoan = getFloatInput("Enter PF LOAN recovery: ");
+    float salaryAdv = getFloatInput("Enter SALARY ADV recovery: ");
+    float tourAdv = getFloatInput("Enter TOUR ADV recovery: ");
+    float totalRecv = getFloatInput("Enter TOTAL RECV: ");
 
-    string netPay = getInput("Enter NET PAY: ");
+    float netPay = getFloatInput("Enter NET PAY: ");
     
     printCentered("Centre for Development of Advanced Computing", width);
     printCentered("Bangalore, India - 560 025", width);
@@ -110,7 +118,7 @@ void generateSalarySlip() {
          << "\t\tTOUR ADV    " << tourAdv << endl;
     cout << "TOTAL PAY " << setw(8) << left << totalPay 
          << "\tTOTAL DED " << setw(6) << left << totalDed 
-         << "\tTOTAL RECV  " << totalRecv << endl;
+         << "\t\tTOTAL RECV  " << totalRecv << endl;
     cout << "NET PAY: " << netPay << endl;
     cout << setw(width - 10) << right << "(SIGNATURE)" << endl;
 }
