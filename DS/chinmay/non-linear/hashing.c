@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define MAX 7
+#define MAX 17
 
 enum type_of_record
 {
@@ -41,7 +41,45 @@ void insertLinear(int ikey, struct Record table[])
     }
 }
 
-int search(int key, struct Record table[])
+int searchLinear(int key, struct Record table[])
+{
+    int i, loc, h;
+    h = hash(key);
+    loc = h;
+    for (i = 1; i != MAX - 1; i++)
+    {
+        if (table[loc].status == EMPTY)
+        {
+            return -1;
+        }
+        if (table[loc].status == OCCUPIED && table[loc].info == key)
+        {
+            return loc;
+        }
+        loc = (h + i) % MAX;
+    }
+    return -1;
+}
+int searchQuadratic(int key, struct Record table[])
+{
+    int i, loc, h;
+    h = hash(key);
+    loc = h;
+    for (i = 1; i != MAX - 1; i++)
+    {
+        if (table[loc].status == EMPTY)
+        {
+            return -1;
+        }
+        if (table[loc].status == OCCUPIED && table[loc].info == key)
+        {
+            return loc;
+        }
+        loc = (h + i) % MAX;
+    }
+    return -1;
+}
+int searchDouble(int key, struct Record table[])
 {
     int i, loc, h;
     h = hash(key);
@@ -85,7 +123,7 @@ void insertQuadratic(int ikey, struct Record table[])
 
 int hash2(int key)
 {
-    return 7 - (key % 7);
+    return 7 + (key % 7);
 }
 
 void insertDoubleHash(int ikey, struct Record table[])
@@ -111,9 +149,31 @@ void insertDoubleHash(int ikey, struct Record table[])
     }
 }
 
-void delete(int key, struct Record table[])
+void deleteLinear(int key, struct Record table[])
 {
-    int loc = search(key, table);
+    int loc = searchLinear(key, table);
+    if (loc == -1)
+    {
+        printf("Record not found\n");
+        return;
+    }
+    table[loc].status = DELETED;
+    printf("Record deleted\n");
+}
+void deleteQuadratic(int key, struct Record table[])
+{
+    int loc = searchQuadratic(key, table);
+    if (loc == -1)
+    {
+        printf("Record not found\n");
+        return;
+    }
+    table[loc].status = DELETED;
+    printf("Record deleted\n");
+}
+void deleteDouble(int key, struct Record table[])
+{
+    int loc = searchDouble(key, table);
     if (loc == -1)
     {
         printf("Record not found\n");
@@ -145,81 +205,91 @@ void display(struct Record table[])
 
 int main()
 {
-    struct Record table[MAX];
-    for (int i = 0; i < MAX; i++)
-    {
-        table[i].status = EMPTY;
+
+    int n;
+    printf("Enter number of keys to insert: ");
+    scanf("%d",&n);
+
+    int arr[n];
+    printf("Enter %d keys:\n",n);
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
     }
 
-    int choice, key, hashType;
-
-    printf("Choose type of hashing:\n");
-    printf("1. Linear Probing\n");
-    printf("2. Quadratic Probing\n");
-    printf("3. Double Hashing\n");
-    printf("Enter your choice: ");
-    scanf("%d", &hashType);
-
-    while (1)
+    struct Record tableLinear[MAX];
+    struct Record tableQuadratic[MAX];
+    struct Record tableDoubleHash[MAX];
+    for (int i = 0; i < MAX; i++)
     {
-        printf("\nMenu:\n");
+        tableLinear[i].status = EMPTY;
+        tableQuadratic[i].status = EMPTY;
+        tableDoubleHash[i].status = EMPTY;
+    }
+
+    int choice;
+    while(1){
         printf("1. Insert\n");
-        printf("2. Search\n");
-        printf("3. Delete\n");
+        printf("2. Delete\n");
+        printf("3. Search\n");
         printf("4. Display\n");
         printf("5. Exit\n");
+
         printf("Enter your choice: ");
         scanf("%d", &choice);
 
+        int key, loc;
+
         switch (choice)
         {
-        case 1:
-            printf("Enter Key: ");
+            case 1:
+                for(int i=0;i<n;i++){
+                    insertLinear(arr[i], tableLinear);
+                    insertQuadratic(arr[i], tableQuadratic);
+                    insertDoubleHash(arr[i], tableDoubleHash);
+                }
+            break;
+            case 2:
+            printf("Enter key to delete: ");
             scanf("%d", &key);
-            if (hashType == 1)
-            {
-                insertLinear(key, table);
-            }
-            else if (hashType == 2)
-            {
-                insertQuadratic(key, table);
-            }
-            else if (hashType == 3)
-            {
-                insertDoubleHash(key, table);
-            }
+            deleteLinear(key, tableLinear);
+            deleteQuadratic(key, tableQuadratic);
+            deleteDouble(key, tableDoubleHash);
+            break;
+            case 3:
+            printf("Enter key to search: ");
+            scanf("%d", &key);
+            loc = searchLinear(key, tableLinear);
+            if (loc != -1)
+                printf("Key found in Linear Probing at index %d\n", loc);
             else
-            {
-                printf("Invalid hash type\n");
-            }
-            break;
-        case 2:
-            printf("Enter Employee ID to search: ");
-            scanf("%d", &key);
-            int loc = search(key, table);
-            if (loc == -1)
-            {
-                printf("Record not found\n");
-            }
+                printf("Key not found in Linear Probing\n");
+
+            loc = searchQuadratic(key, tableQuadratic);
+            if (loc != -1)
+                printf("Key found in Quadratic Probing at index %d\n", loc);
             else
-            {
-                printf("Record found at location %d\n", loc);
-            }
+                printf("Key not found in Quadratic Probing\n");
+
+            loc = searchDouble(key, tableDoubleHash);
+            if (loc != -1)
+                printf("Key found in Double Hashing at index %d\n", loc);
+            else
+                printf("Key not found in Double Hashing\n");
             break;
-        case 3:
-            printf("Enter Employee ID to delete: ");
-            scanf("%d", &key);
-            delete (key, table);
+            case 4:
+            printf("Linear Probing:\n");
+            display(tableLinear);
+            printf("Quadratic Probing:\n");
+            display(tableQuadratic);
+            printf("Double Hashing:\n");
+            display(tableDoubleHash);
             break;
-        case 4:
-            display(table);
-            break;
-        case 5:
+            case 5:
             return 0;
-        default:
+            default:
             printf("Invalid choice\n");
         }
     }
-
+  
     return 0;
 }
