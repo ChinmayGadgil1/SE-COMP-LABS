@@ -74,6 +74,47 @@ void radix_sort(){
     }
 }
 
+void radix_sort_desc(){
+    int i,k,dig,least_sig,most_sig;
+    struct node* rear[10];
+    struct node* front[10];
+    least_sig=1;
+    most_sig=large_dig();
+    for(k=least_sig;k<=most_sig;k++){
+        for(i=0;i<10;i++){
+            rear[i]=NULL;
+            front[i]=NULL;
+        }
+        for(struct node* ptr=start;ptr!=NULL;ptr=ptr->link){
+            dig=digit(ptr->info,k);
+            if(front[dig]==NULL){
+                front[dig]=ptr;
+            }
+            else{
+                rear[dig]->link=ptr;
+            }
+            rear[dig]=ptr;
+        }
+        i=0;
+        while(front[i]==NULL && i<10){
+            i++;
+        }
+        if(i<10) {
+            start=front[i];
+            while(i<9){
+                if(rear[i+1]!=NULL){
+                    rear[i]->link=front[i+1];
+                }
+                else{
+                    rear[i+1]=rear[i];
+                }
+                i++;
+            }
+            rear[9]->link=NULL;
+        }
+    }
+}
+
 
 void merge(int arr[],int tmp[],int low1,int up1,int low2,int up2){
     int i=low1;
@@ -159,7 +200,7 @@ while(1) {
 
     switch(choice) {
         case 1:
-            // Convert array to linked list
+
             start = NULL;
             for(i = n - 1; i >= 0; i--) {
                 struct node* new_node = (struct node*)malloc(sizeof(struct node));
@@ -175,7 +216,7 @@ while(1) {
                 ptr = ptr->link;
             }
             printf("\n");
-            // Free the linked list
+
             while(start != NULL) {
                 struct node* temp = start;
                 start = start->link;
