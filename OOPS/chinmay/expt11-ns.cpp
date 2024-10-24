@@ -1,7 +1,6 @@
 #include <iostream>
 #include <vector>
 #include <string>
-// #include <algorithm>
 using namespace std;
 
 int main() {
@@ -10,6 +9,7 @@ int main() {
     int maxLength = 0;
 
     cout << "Enter lines of text (type 'END' to finish):" << endl;
+
 
     while (getline(cin, line) && line != "END") {
         lines.push_back(line);
@@ -20,7 +20,7 @@ int main() {
 
     cout << "\nRight-justified text:" << endl;
 
-    for (const auto& l : lines) {
+    for (auto l : lines) {
         cout << string(maxLength - l.length(), ' ') << l << endl;
     }
 

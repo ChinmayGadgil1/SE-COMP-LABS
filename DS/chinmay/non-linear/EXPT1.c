@@ -117,6 +117,40 @@ void postorder(struct treeNode *ptr) {
     printf("%d ", ptr->info);
 }
 
+int height(struct treeNode *ptr) {
+    int hL, hR;
+    if (ptr == NULL)
+        return 0;
+    hL = height(ptr->lchild);
+    hR = height(ptr->rchild);
+    if (hL > hR)
+        return 1 + hL;
+    else
+        return 1 + hR;
+}
+
+void displayLevelOrder(struct treeNode *ptr, int level)
+{
+    if (ptr == NULL)
+        return;
+    if (level == 1)
+        printf("%d ", ptr->info);
+    else if (level > 1)
+    {
+        displayLevelOrder(ptr->lchild, level - 1);
+        displayLevelOrder(ptr->rchild, level - 1);
+    }
+}
+
+void levelorder(struct treeNode *ptr)
+{
+    int h = height(ptr);
+    for (int i = 0; i <= h; i++)
+    {
+        displayLevelOrder(ptr, i);
+    }
+}
+
 int main() {
     printf("Enter size of tree: ");
     int n;
@@ -139,6 +173,8 @@ int main() {
     printf("\n");
     printf("\nPostorder traversal:\n");
     postorder(root);
+    printf("\n");
+    printf("\nHeight of tree: %d\n", height(root));
     printf("\n\n");
 
     return 0;
