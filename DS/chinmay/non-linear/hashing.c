@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include<stdlib.h>
 #define MAX 17
 
 enum type_of_record
@@ -12,6 +13,11 @@ struct Record
 {
     int info;
     enum type_of_record status;
+};
+
+struct chainNode{
+    int info;
+    struct chainNode*link;
 };
 
 int hash(int key)
@@ -75,7 +81,7 @@ int searchQuadratic(int key, struct Record table[])
         {
             return loc;
         }
-        loc = (h + i) % MAX;
+        loc = (h + i*i) % MAX;
     }
     return -1;
 }
@@ -83,6 +89,7 @@ int searchDouble(int key, struct Record table[])
 {
     int i, loc, h;
     h = hash(key);
+    int h2=hash2(key);
     loc = h;
     for (i = 1; i != MAX - 1; i++)
     {
@@ -94,7 +101,7 @@ int searchDouble(int key, struct Record table[])
         {
             return loc;
         }
-        loc = (h + i) % MAX;
+        loc = (h + i*h2) % MAX;
     }
     return -1;
 }
@@ -125,7 +132,7 @@ int hash2(int key)
 {
     int n;
     n = 7 + (key % 7);
-    printf("\n hash value of key%d-> %d", key, n);
+    // printf("\n hash value of key%d-> %d", key, n);
     return n;
 }
 
@@ -191,54 +198,132 @@ void display(struct Record table[])
 {
     for (int i = 0; i < MAX; i++)
     {
-        printf("Record: %d =>", i);
+        printf("     ------\n");
+        printf("[%2d] ", i);
         if (table[i].status == OCCUPIED)
         {
-            printf("Key: %d\n", table[i].info);
+            printf("|%4d|\n", table[i].info);
         }
         else if (table[i].status == DELETED)
         {
-            printf("Record deleted\n");
+            printf("|DELD|\n");
         }
         else
         {
-            printf("Empty record\n");
+            printf("|EMPT|\n");
         }
+        printf("     ------\n");
     }
+}
+
+
+
+int searchChained(int key,struct chainNode* table[] ){
+    int h=hash(key);
+    struct chainNode* ptr=table[h];
+    while (ptr)
+    {
+        if (ptr->info==key)
+        {
+            return h;
+        }
+        ptr=ptr->link;
+        
+    }
+    return -1;
+    
+}
+
+void insertChained(int key, struct chainNode* table[]){
+    int h;
+    struct chainNode* tmp;
+    if (searchChained(key,table)!=-1)
+    {
+        printf("Duplicate key");
+        return;
+    }
+    h=hash(key);
+    tmp=(struct chainNode*)malloc(sizeof(struct chainNode));
+    tmp->info=key;
+    tmp->link=table[h];
+    table[h]=tmp;
+}
+
+void deleteChained(int key,struct chainNode* table[]){
+    int h=hash(key);
+    struct chainNode* tmp;
+    if (table[h]==NULL)
+    {
+        printf("Key not found\n");
+        return;
+    }
+    if(table[h]->info==key){
+        tmp=table[h];
+        table[h]=table[h]->link;
+        free(tmp);
+        return;
+    }
+    struct chainNode* ptr=table[h];
+    while (ptr->link)
+    {
+        if (ptr->link->info==key)
+        {
+            tmp=ptr->link;
+            ptr->link=tmp->link;
+            free(tmp);
+            return;
+        }
+        ptr=ptr->link;
+    }
+    printf("Key not found\n");
+}
+
+void displayChained(struct chainNode* table[]){
+    for (int i = 0; i < MAX; i++)
+    {
+        if(table[i]==NULL){
+            printf("    --------\n");
+            printf("[%2d]| NULL |\n",i);
+            printf("    --------\n");
+            continue;
+        }
+        struct chainNode* ptr=table[i];
+        printf("    ------------\n");
+        printf("[%2d]| %8p |--> ",i,table[i]);
+        while (ptr)
+        {
+            printf("%d ",ptr->info);
+        ptr=ptr->link;
+        }
+        
+        printf("\n    ------------\n");
+    }
+    
 }
 
 int main()
 {
 
-    // int n;
-    // printf("Enter number of keys to insert: ");
-    // scanf("%d",&n);
+    int n;
+    printf("Enter number of keys to insert: ");
+    scanf("%d",&n);
 
-    // int arr[n];
-    // printf("Enter %d keys:\n",n);
-    // for(int i=0;i<n;i++){
-    //     scanf("%d",&arr[i]);
-    // }
-    int n = 10;
-    int arr[10] = { 7515,
-                    4841,
-                    2682,
-                    4943,
-                    7314,
-                    8562,
-                    1836,
-                    5733,
-                    5957,
-                    6174 };
+    int arr[n];
+    printf("Enter %d keys:\n",n);
+    for(int i=0;i<n;i++){
+        scanf("%d",&arr[i]);
+    }
 
     struct Record tableLinear[MAX];
     struct Record tableQuadratic[MAX];
     struct Record tableDoubleHash[MAX];
+    struct chainNode* tableChaining[MAX];
     for (int i = 0; i < MAX; i++)
     {
         tableLinear[i].status = EMPTY;
         tableQuadratic[i].status = EMPTY;
         tableDoubleHash[i].status = EMPTY;
+        tableChaining[i]=NULL;
     }
 
     int choice;
@@ -263,6 +348,7 @@ int main()
                 insertLinear(arr[i], tableLinear);
                 insertQuadratic(arr[i], tableQuadratic);
                 insertDoubleHash(arr[i], tableDoubleHash);
+                insertChained(arr[i],tableChaining);
             }
             break;
         case 2:
@@ -271,6 +357,7 @@ int main()
             deleteLinear(key, tableLinear);
             deleteQuadratic(key, tableQuadratic);
             deleteDouble(key, tableDoubleHash);
+            deleteChained(key,tableChaining);
             break;
         case 3:
             printf("Enter key to search: ");
@@ -292,6 +379,11 @@ int main()
                 printf("Key found in Double Hashing at index %d\n", loc);
             else
                 printf("Key not found in Double Hashing\n");
+            loc = searchChained(key, tableChaining);
+            if (loc != -1)
+                printf("Key found in separate chaining at index %d\n", loc);
+            else
+                printf("Key not found in Separate chaining\n");
             break;
         case 4:
             printf("Linear Probing:\n");
@@ -300,6 +392,8 @@ int main()
             display(tableQuadratic);
             printf("Double Hashing:\n");
             display(tableDoubleHash);
+            printf("Separate Chaining\n");
+            displayChained(tableChaining);
             break;
         case 5:
             return 0;

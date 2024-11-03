@@ -2,6 +2,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#define MAX 100
 
 struct listNode
 {
@@ -15,6 +16,66 @@ struct treeNode
     int info;
     struct treeNode *rchild;
 };
+
+struct treeNode *stack[MAX];
+int top = -1;
+void push(struct treeNode *ptr)
+{
+    if (top == MAX - 1)
+    {
+        return;
+    }
+    stack[++top] = ptr;
+}
+struct treeNode *pop()
+{
+    if (top == -1)
+    {
+        return NULL;
+    }
+    return stack[top--];
+}
+
+struct treeNode *queueArr[MAX];
+int front = -1, rear = -1;
+
+int isFull()
+{
+    return rear == MAX - 1;
+}
+
+int isEmpty()
+{
+    return front == -1 || front > rear;
+}
+
+void insert(struct treeNode *item)
+{
+    if (isFull())
+    {
+        printf("Queue Overflow\n");
+        return;
+    }
+    if (front == -1)
+    {
+        front++;
+    }
+
+    rear++;
+    queueArr[rear] = item;
+}
+
+struct treeNode *delete()
+{
+    if (isEmpty())
+    {
+        printf("Queue Underflow\n");
+        return NULL;
+    }
+    struct treeNode *item = queueArr[front];
+    front++;
+    return item;
+}
 
 struct listNode *addAtBegin(struct listNode *start, int data)
 {
@@ -59,7 +120,7 @@ struct listNode *createList(struct listNode *start, int n)
     start = addAtBegin(start, data);
     for (int i = 1; i < n; i++)
     {
-        printf("Enter element: ");
+        // printf("Enter element: ");
         scanf("%d", &data);
         start = addAtEnd(start, data);
     }
@@ -126,66 +187,108 @@ struct treeNode *constructPostIn(struct listNode *postptr, struct listNode *inpt
     tmp->rchild = constructPostIn(postptr, p->link, n - i - 1);
 }
 
-void preorder(struct treeNode *ptr)
+void preorder(struct treeNode *root)
 {
-    if (ptr == NULL)
+    struct treeNode *ptr = root;
+    if (root == NULL)
         return;
-    printf("%d ", ptr->info);
-    preorder(ptr->lchild);
-    preorder(ptr->rchild);
+    top = -1;
+    push(root);
+    while (top != -1)
+    {
+        ptr = pop();
+        printf("%d ", ptr->info);
+        if (ptr->rchild)
+            push(ptr->rchild);
+        if (ptr->lchild)
+            push(ptr->lchild);
+    }
 }
-void inorder(struct treeNode *ptr)
+void inorder(struct treeNode *root)
 {
+    struct treeNode *ptr = root;
     if (ptr == NULL)
         return;
-    inorder(ptr->lchild);
-    printf("%d ", ptr->info);
-    inorder(ptr->rchild);
+    while (1)
+    {
+        while (ptr->lchild)
+        {
+            push(ptr);
+            ptr = ptr->lchild;
+        }
+        while (!ptr->rchild)
+        {
+            printf("%d ", ptr->info);
+            if (top == -1)
+                return;
+            ptr = pop();
+        }
+        printf("%d ", ptr->info);
+        ptr = ptr->rchild;
+    }
 }
 
-void postorder(struct treeNode *ptr)
+void postorder(struct treeNode *root)
 {
+    struct treeNode *ptr = root, *q;
     if (ptr == NULL)
         return;
-    postorder(ptr->lchild);
-    postorder(ptr->rchild);
-    printf("%d ", ptr->info);
+    q = root;
+    while (1)
+    {
+        while (ptr->lchild)
+        {
+            push(ptr);
+            ptr = ptr->lchild;
+        }
+        while ((!ptr->rchild) || q == ptr->rchild)
+        {
+            printf("%d ", ptr->info);
+            q = ptr;
+            if (top == -1)
+                return;
+            ptr = pop();
+        }
+        push(ptr);
+        ptr = ptr->rchild;
+    }
 }
 
 int height(struct treeNode *ptr)
 {
+     int hL, hR;
     if (ptr == NULL)
         return 0;
-    int lh = height(ptr->lchild);
-    int rh = height(ptr->rchild);
-    if (lh > rh)
-        return lh + 1;
+    hL = height(ptr->lchild);
+    hR = height(ptr->rchild);
+    if (hL > hR)
+        return 1 + hL;
     else
-        return rh + 1;
+        return 1 + hR;
 }
 
-void displayLevelOrder(struct treeNode *ptr, int level)
+void levelorder(struct treeNode *root)
 {
-    if (ptr == NULL)
+    struct treeNode *ptr = root;
+    if (!ptr)
+    {
         return;
-    if (level == 1)
+    }
+    insert(ptr);
+    while (!isEmpty())
+    {
+        ptr = delete ();
         printf("%d ", ptr->info);
-    else if (level > 1)
-    {
-        displayLevelOrder(ptr->lchild, level - 1);
-        displayLevelOrder(ptr->rchild, level - 1);
+        if (ptr->lchild)
+        {
+            insert(ptr->lchild);
+        }
+        if (ptr->rchild)
+        {
+            insert(ptr->rchild);
+        }
     }
 }
-
-void levelorder(struct treeNode *ptr)
-{
-    int h = height(ptr);
-    for (int i = 0; i <= h; i++)
-    {
-        displayLevelOrder(ptr, i);
-    }
-}
-
 
 int main()
 {

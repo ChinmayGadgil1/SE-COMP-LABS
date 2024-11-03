@@ -1,7 +1,6 @@
-// ! AVL Tree
-
 #include <stdio.h>
 #include <stdlib.h>
+#include<stdbool.h>
 
 struct node
 {
@@ -32,6 +31,7 @@ struct node *insert_left_balance(struct node *pptr)
     struct node *aptr = pptr->lchild, *bptr;
     if (aptr->balance == 1)
     {
+        printf("P%d: CASE L_C1\n",pptr->info);
         pptr->balance = 0;
         aptr->balance = 0;
         pptr = rightrotate(pptr);
@@ -42,14 +42,17 @@ struct node *insert_left_balance(struct node *pptr)
         switch (bptr->balance)
         {
         case -1:
+        printf("P%d: CASE L_C2A\n",pptr->info);
             pptr->balance = 0;
             aptr->balance = 1;
             break;
         case 1:
+        printf("P%d: CASE L_C2B\n",pptr->info);
             pptr->balance = -1;
             aptr->balance = 0;
             break;
         case 0:
+        printf("P%d: CASE L_C2C\n",pptr->info);
             pptr->balance = 0;
             aptr->balance = 0;
             break;
@@ -68,9 +71,11 @@ struct node *insert_left_check(struct node *pptr, int *taller)
     switch (pptr->balance)
     {
     case 0:
+        printf("P%d: CASE L_A\n",pptr->info);
         pptr->balance = 1;
         break;
     case -1:
+        printf("P%d: CASE L_B\n",pptr->info);
         pptr->balance = 0;
         *taller = 0;
         break;
@@ -87,6 +92,8 @@ struct node *insert_right_balance(struct node *pptr)
     struct node *aptr = pptr->rchild, *bptr;
     if (aptr->balance == -1)
     {
+        printf("P%d: CASE R_C1\n",pptr->info);
+
         pptr->balance = 0;
         aptr->balance = 0;
         pptr = leftrotate(pptr);
@@ -97,14 +104,17 @@ struct node *insert_right_balance(struct node *pptr)
         switch (bptr->balance)
         {
         case -1:
+            printf("P%d: CASE R_C2A\n",pptr->info);
             pptr->balance = 1;
             aptr->balance = 0;
             break;
         case 1:
+            printf("P%d: CASE R_C2B\n",pptr->info);
             pptr->balance = 0;
             aptr->balance = -1;
             break;
         case 0:
+            printf("P%d: CASE R_C2C\n",pptr->info);
             pptr->balance = 0;
             aptr->balance = 0;
             break;
@@ -115,7 +125,7 @@ struct node *insert_right_balance(struct node *pptr)
         pptr->rchild = rightrotate(aptr);
         pptr = leftrotate(pptr);
     }
-    return pptr;  // Add missing return statement
+    return pptr;  
 }
 
 struct node *insert_right_check(struct node *pptr, int *taller)
@@ -123,9 +133,11 @@ struct node *insert_right_check(struct node *pptr, int *taller)
     switch (pptr->balance)
     {
     case 0:
+            printf("P%d: CASE R_A\n",pptr->info);
         pptr->balance = -1;
         break;
     case 1:
+            printf("P%d: CASE R_B\n",pptr->info);
         pptr->balance = 0;
         *taller = 0;
         break;
@@ -183,84 +195,124 @@ void inorder(struct node *ptr)
     }
 }
 
-struct node *delete_right_balance(struct node *root)
-{
+struct node *del_LeftBalance(struct node *pptr, int *pshorter) {
     struct node *aptr, *bptr;
-    struct node *tmp = root->rchild;
-    if (tmp->balance == -1)
-    {
-        root->balance = 0;
-        tmp->balance = 0;
-        root = leftrotate(root);
-    }
-    else
-    {
-        aptr = tmp->lchild;
-        switch (aptr->balance)
-        {
-        case -1:
-            root->balance = 0;
-            tmp->balance = 1;
-            break;
-        case 1:
-            root->balance = -1;
-            tmp->balance = 0;
-            break;
-        case 0:
-            root->balance = 0;
-            tmp->balance = 0;
-            break;
-        }
+    aptr = pptr->lchild;
+
+    if (aptr->balance == 0) { /* Case R_C1 */
+        printf("P%d: CASE R_C1\n", pptr->info);
+        pptr->balance = 1;
+        aptr->balance = -1;
+        *pshorter = false;
+        pptr = rightrotate(pptr);
+    } else if (aptr->balance == 1) { /* Case R_C2 */
+        printf("P%d: CASE R_C2\n", pptr->info);
+        pptr->balance = 0;
         aptr->balance = 0;
-        root->rchild = rightrotate(tmp);
-        root = leftrotate(root);
-    }
-    return root;
-}
+        pptr = rightrotate(pptr);
+    } else { /* Case R_C3 */
+        printf("P%d: CASE R_C3\n", pptr->info);
+        bptr = aptr->rchild;
 
-struct node *delete_left_check(struct node *root, int *shorter)
-{
-    switch (root->balance)
-    {
-    case 0:
-        root->balance = -1;
-        *shorter = 0;
-        break;
-    case 1:
-        root->balance = 0;
-        break;
-    case -1:
-        root = delete_right_balance(root);
-        if (root->balance != 0)
-        {
-            *shorter = 0;
+        switch (bptr->balance) {
+            case 0: /* Case R_C3a */
+                printf("P%d: CASE R_C3a\n", pptr->info);
+                pptr->balance = 0;
+                aptr->balance = 0;
+                break;
+            case 1: /* Case R_C3b */
+                printf("P%d: CASE R_C3b\n", pptr->info);
+                pptr->balance = -1;
+                aptr->balance = 0;
+                break;
+            case -1: /* Case R_C3c */
+                printf("P%d: CASE R_C3c\n", pptr->info);
+                pptr->balance = 0;
+                aptr->balance = 1;
+                break;
         }
-        break;
+        bptr->balance = 0;
+        pptr->lchild = leftrotate(aptr);
+        pptr = rightrotate(pptr);
     }
-    return root;
-}
+    return pptr;
+} 
 
-struct node *delete_right_check(struct node *root, int *shorter)
-{
-    switch (root->balance)
-    {
-    case 0:
-        root->balance = 1;
-        *shorter = 0;
-        break;
-    case -1:
-        root->balance = 0;
-        break;
-    case 1:
-        root = delete_right_balance(root);
-        if (root->balance != 0)
-        {
-            *shorter = 0;
+
+struct node *RightBalance(struct node *pptr, int *pshorter) {
+    struct node *aptr, *bptr;
+    aptr = pptr->rchild;
+
+    if (aptr->balance == 0) { /* Case L_C1 */
+        printf("P%d: CASE L_C1\n", pptr->info);
+        pptr->balance = -1;
+        aptr->balance = 1;
+        *pshorter =false;
+        pptr = leftrotate(pptr);
+    } else if (aptr->balance == -1) { /* Case L_C2 */
+        printf("P%d: CASE L_C2\n", pptr->info);
+        pptr->balance = 0;
+        aptr->balance = 0;
+        pptr = leftrotate(pptr);
+    } else { /* Case L_C3 */
+        printf("P%d: CASE L_C3\n", pptr->info);
+        bptr = aptr->lchild;
+
+        switch (bptr->balance) {
+            case 0: /* Case L_C3a */
+                printf("P%d: CASE L_C3a\n", pptr->info);
+                pptr->balance = 0;
+                aptr->balance = 0;
+                break;
+            case -1: /* Case L_C3b */
+                printf("P%d: CASE L_C3b\n", pptr->info);
+                pptr->balance = 1;
+                aptr->balance = 0;
+                break;
+            case 1: /* Case L_C3c */
+                printf("P%d: CASE L_C3c\n", pptr->info);
+                pptr->balance = 0;
+                aptr->balance = -1;
+                break;
         }
-        break;
+        bptr->balance = 0;
+        pptr->rchild = rightrotate(aptr);
+        pptr = leftrotate(pptr);
     }
-    return root;
-}
+    return pptr;
+} /* End of RightBalance() */
+
+struct node *del_right_check(struct node *pptr, int *pshorter) {
+    switch (pptr->balance) {
+        case 0: /* Case R_A : was balanced */
+            printf("P%d: CASE R_A\n", pptr->info);
+            pptr->balance = 1;
+            *pshorter = false; /* now left heavy */
+            break;
+        case -1: /* Case R_B : was right heavy */
+            printf("P%d: CASE R_B\n", pptr->info);
+            pptr->balance = 0; /* now balanced */
+            break;
+    }
+    return pptr;
+} 
+
+struct node *del_left_check(struct node *pptr, int *pshorter) {
+    switch (pptr->balance) {
+        case 0: /* Case L_A : was balanced */
+            printf("P%d: CASE L_A\n", pptr->info);
+            pptr->balance = -1;
+            *pshorter = false; /* now right heavy */
+            break;
+        case 1: /* Case L_B : was left heavy */
+            printf("P%d: CASE L_B\n", pptr->info);
+            pptr->balance = 0; /* now balanced */
+            break;
+    }
+    return pptr;
+} /* End of del_left_check() */
+
+
 
 struct node *delete (struct node *root, int dkey)
 {
@@ -276,7 +328,7 @@ struct node *delete (struct node *root, int dkey)
         root->lchild = delete (root->lchild, dkey);
         if (shorter == 1)
         {
-            root = delete_left_check(root, &shorter);
+            root = del_left_check(root, &shorter);
         }
     }
     else if (dkey > root->info)
@@ -284,7 +336,7 @@ struct node *delete (struct node *root, int dkey)
         root->rchild = delete (root->rchild, dkey);
         if (shorter == 1)
         {
-            root = delete_right_check(root, &shorter);
+            root = del_right_check(root, &shorter);
         }
     }
     else
@@ -300,7 +352,7 @@ struct node *delete (struct node *root, int dkey)
             root->rchild = delete (root->rchild, tmp->info);
             if (shorter == 1)
             {
-                root = delete_right_check(root, &shorter);
+                root = del_right_check(root, &shorter);
             }
         }
         else
@@ -360,8 +412,6 @@ int main()
     struct node *root = NULL;
     int choice, key;
 
-    do
-    {
         printf("\n----- AVL Tree Menu -----\n");
         printf("1. Insert\n");
         printf("2. Inorder Traversal\n");
@@ -369,7 +419,9 @@ int main()
         printf("4. Postorder Traversal\n");
         printf("5. Delete\n");
         printf("6. Exit\n");
-        printf("Enter your choice: ");
+    do
+    {
+        printf("\nEnter your choice: ");
         scanf("%d", &choice);
 
         switch (choice)

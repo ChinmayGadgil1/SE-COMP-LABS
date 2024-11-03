@@ -4,21 +4,21 @@
 using namespace std;
 
 void displayMenu() {
-    cout << "Queue Operations Menu:" << endl;
+    cout << "\nQueue Operations Menu:" << endl;
     cout << "1. Enqueue" << endl;
     cout << "2. Dequeue" << endl;
     cout << "3. Front" << endl;
     cout << "4. Size" << endl;
-    cout << "5. Exit" << endl;
-    cout << "Enter your choice: ";
+    cout << "5. Exit" ;
 }
 
 int main() {
     queue<int> q;
     int choice, value;
 
-    while (true) {
         displayMenu();
+    while (true) {
+    cout << "\nEnter your choice: ";
         cin >> choice;
 
         switch (choice) {

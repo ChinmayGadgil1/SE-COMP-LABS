@@ -13,17 +13,16 @@ void displayList(list<int>& lst) {
 int main() {
     list<int> myList;
     int choice, value, position;
-    list<int>::iterator it;
-
-    do {
         cout << "\nMenu:\n";
         cout << "1. Add element to the front\n";
         cout << "2. Add element to the back\n";
         cout << "3. Remove element from the front\n";
         cout << "4. Remove element from the back\n";
         cout << "5. Display list\n";
-        cout << "6. Exit\n";
-        cout << "Enter your choice: ";
+        cout << "6. Exit";
+
+    do {
+        cout << "\nEnter your choice: ";
         cin >> choice;
 
         switch (choice) {

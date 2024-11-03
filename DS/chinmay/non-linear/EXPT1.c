@@ -55,12 +55,12 @@ struct listNode* createList(struct listNode* start, int n) {
     scanf("%d", &data);
     start = addAtBegin(start, data);
     for (int i = 1; i < n; i++) {
-        printf("Enter element: ");
+        // printf("Enter element: ");
         scanf("%d", &data);
         start = addAtEnd(start, data);
     }
 
-    return start;
+    return start; 
 }
 
 struct treeNode* constructPostIn(struct listNode *postptr, struct listNode *inptr, int n) {
@@ -117,17 +117,6 @@ void postorder(struct treeNode *ptr) {
     printf("%d ", ptr->info);
 }
 
-int height(struct treeNode *ptr) {
-    int hL, hR;
-    if (ptr == NULL)
-        return 0;
-    hL = height(ptr->lchild);
-    hR = height(ptr->rchild);
-    if (hL > hR)
-        return 1 + hL;
-    else
-        return 1 + hR;
-}
 
 void displayLevelOrder(struct treeNode *ptr, int level)
 {
@@ -149,6 +138,19 @@ void levelorder(struct treeNode *ptr)
     {
         displayLevelOrder(ptr, i);
     }
+}
+
+
+int height(struct treeNode *ptr) {
+    int hL, hR;
+    if (ptr == NULL)
+        return 0;
+    hL = height(ptr->lchild);
+    hR = height(ptr->rchild);
+    if (hL > hR)
+        return 1 + hL;
+    else
+        return 1 + hR;
 }
 
 int main() {
@@ -173,6 +175,9 @@ int main() {
     printf("\n");
     printf("\nPostorder traversal:\n");
     postorder(root);
+    printf("\n");
+    printf("\nLevelorder traversal:\n");
+    levelorder(root);
     printf("\n");
     printf("\nHeight of tree: %d\n", height(root));
     printf("\n\n");

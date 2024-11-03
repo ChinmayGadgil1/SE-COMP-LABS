@@ -120,7 +120,7 @@ int main() {
                 default:
                     cout << "Invalid choice. Please try again." << endl;
             }
-        } (const exception& e) {
+        } catch(const exception& e) {
             cout << "Error: " << e.what() << endl;
         }
     }

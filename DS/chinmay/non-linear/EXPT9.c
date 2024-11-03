@@ -214,12 +214,12 @@ void DFS_traversalR(){
 int main(){
 
 int choice;
-while(1){
-    printf("1. Create graph\n");
+    printf("\n1. Create graph\n");
     printf("2. BFS Traversal\n");
     printf("3. DFS Traversal (Non-Recursive)\n");
     printf("4. DFS Traversal (Recursive)\n");
     printf("5. Exit\n");
+while(1){
     printf("Enter your choice: ");
     scanf("%d",&choice);
     switch (choice)

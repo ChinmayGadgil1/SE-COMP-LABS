@@ -14,15 +14,15 @@ int main() {
     deque<int> dq;
     int choice, value;
 
-    do {
         cout << "\nMenu:\n";
         cout << "1. Insert at front\n";
         cout << "2. Insert at back\n";
         cout << "3. Delete from front\n";
         cout << "4. Delete from back\n";
         cout << "5. Display deque\n";
-        cout << "6. Exit\n";
-        cout << "Enter your choice: ";
+        cout << "6. Exit";
+    do {
+        cout << "\nEnter your choice: ";
         cin >> choice;
 
         switch (choice) {

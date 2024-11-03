@@ -216,10 +216,10 @@ struct node* delete(struct node* root,int dkey){
     return root;
 }
 
-struct node* inorder(struct node* root){
+void inorder(struct node* root){
     if(root==NULL){
         printf("Tree is empty\n");
-        return root;
+        return;
     }
     struct node* ptr=root;
     while(ptr->lthread==false)
@@ -228,8 +228,7 @@ struct node* inorder(struct node* root){
         printf("%d ",ptr->info);
         ptr=in_succ(ptr);
     }
-    printf("\n");
-    return root;
+   
 }
 
 struct node* preorder(struct node* root){
@@ -251,8 +250,19 @@ struct node* preorder(struct node* root){
                 ptr=ptr->right;
         }
     }
-    printf("\n");
+
     return root;
+}
+
+void postorder(struct node* root){
+    if(root==NULL){
+        return;
+    }
+    if(root->lthread==false)
+        postorder(root->left);
+    if(root->rthread==false)
+        postorder(root->right);
+    printf("%d ",root->info);
 }
 
 int main(){
@@ -260,8 +270,9 @@ int main(){
     struct node* root=NULL;
     int choice,ikey;
     struct node* ptr;
+        printf("\n1.Insert\n2.Search\n3.Delete\n4.Inorder\n5.Postorder\n6.Exit\n");
     while(1){
-        printf("1.Insert\n2.Search\n3.Delete\n4.Inorder\n5.Preorder\n6.Exit\n");
+        printf("\nEnter your choice: ");
         scanf("%d",&choice);
         switch(choice){
             case 1:
@@ -283,10 +294,10 @@ int main(){
                 break;
             case 4:
 
-                root=inorder(root);
+                inorder(root);
                 break;
             case 5:
-                root=preorder(root);
+                postorder(root);
                 break;
             case 6:
                 exit(0);
