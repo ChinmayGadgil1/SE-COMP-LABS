@@ -4,6 +4,7 @@ using namespace std;
 
 int main() {
     try {
+            
         int age;
         cout << "Enter your age: ";
         cin >> age;

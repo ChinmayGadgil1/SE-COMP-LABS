@@ -8,15 +8,15 @@ private:
     vector<int> data;
 
 public:
-    // Constructor to initialize the vector with a given size
+ 
     Vector(int size) : data(size) {}
 
-    // Overloading the [] operator to access elements by index
+ 
     int& operator[](int index) {
         return data[index];
     }
 
-    // Overloading the * operator for scalar multiplication
+
     Vector operator*(int scalar) const {
         Vector result(data.size());
         for (int i = 0; i < data.size(); i++) {
@@ -25,7 +25,7 @@ public:
         return result;
     }
 
-    // Overloading the + operator for vector addition
+
     Vector operator+(const Vector& other) const {
         if (data.size() != other.data.size()) {
             throw runtime_error("Vectors must be of the same size for addition");

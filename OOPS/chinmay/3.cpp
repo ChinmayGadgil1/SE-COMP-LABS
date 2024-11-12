@@ -69,12 +69,12 @@ int stack::peek()
 void stack::populate()
 {
     int choice,data;
-    while (1)
-    {
         cout << endl
              << "What would you like to do?\n"
-             << "1.Push\n2.Pop\n3.Peek\n4.Exit\n"
-                "Your choice=> \n";
+             << "1.Push\n2.Pop\n3.Peek\n4.Exit";
+    while (1)
+    {   
+        cout<<"\nYour choice=> \n";
         cin >> choice;
         switch (choice)
         {
