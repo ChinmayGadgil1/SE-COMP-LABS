@@ -48,7 +48,7 @@ void radix_sort() {
     struct node* front[10];
     least_sig = 1;
     most_sig = large_dig();
-    for (k = least_sig; k <= most_sig; k++) {
+    for (k = least_sig; k<=most_sig; k++) {
         for (i = 0; i < 10; i++) {
             rear[i] = NULL;
             front[i] = NULL;
@@ -62,21 +62,21 @@ void radix_sort() {
             }
             rear[dig] = ptr;
         }
-        i = 0;
-        while (front[i] == NULL && i < 10) {
-            i++;
+        i = 9;
+        while (front[i] == NULL && i >0) {
+            i--;
         }
-        if (i < 10) {
+        if (i >0) {
             start = front[i];
-            while (i < 9) {
-                if (rear[i + 1] != NULL) {
-                    rear[i]->link = front[i + 1];
+            while (i > 0) {
+                if (rear[i - 1] != NULL) {
+                    rear[i]->link = front[i - 1];
                 } else {
-                    rear[i + 1] = rear[i];
+                    rear[i - 1] = rear[i];
                 }
-                i++;
+                i--;
             }
-            rear[9]->link = NULL;
+            rear[0]->link = NULL;
         }
     }
 }
