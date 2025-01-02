@@ -93,6 +93,10 @@ struct treeNode* constructPostIn(struct listNode *postptr, struct listNode *inpt
     return tmp; 
 }
 
+void construct(struct listNode* inptr, struct listNode* postptr, int n){
+    
+}
+
 void preorder(struct treeNode *ptr) {
     if (ptr == NULL)
         return;

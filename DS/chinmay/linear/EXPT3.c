@@ -37,14 +37,35 @@ struct node *add(struct node *start, int data)
         return start;
     }
 
+    if(start->info==data){
+        printf("\nDuplicates not allowed! Enter new data: ");
+        scanf("%d",&data);
+        tmp->info=data;
+    }
+
+    if(start->info>data){
+        tmp->link=start;
+        start=tmp;
+        return start;
+    }
+
     struct node *p = start;
     while (p->link != NULL)
     {
+        if(p->link->info==data){
+            printf("\nDuplicates not allowed! Enter new data: ");
+            scanf("%d",&data);
+            tmp->info=data;
+        }
+        if (p->link->info > data)
+        {
+            break;
+        }
         p = p->link;
     }
 
+    tmp->link = p->link;
     p->link = tmp;
-
     return start;
 }
 
@@ -89,6 +110,7 @@ struct node *intersectList(struct node *L1, struct node *L2)
             {
                 result = add(result, i->info);
             }
+    
         }
     }
 
@@ -119,6 +141,40 @@ struct node *differenceList(struct node *L1, struct node *L2)
     }
 
     return result;
+}
+
+struct node *unionL(struct node *l1, struct node *l2)
+{
+    struct node* l3;
+    if (!l1)
+        return l2;
+    if (!l2)
+        return l1;
+
+    while(l1 && l2)
+    {
+        if(l1->info==l2->info){
+            l3=add(l3,l1->info);
+            l1=l1->link;
+            l2=l2->link;
+        }
+        else{
+            l3=add(l3,l1->info);
+            l3=add(l3,l2->info);
+            l1=l1->link;
+            l2=l2->link;
+        }
+    }
+    while(l1){
+        l3=add(l3,l1->info);
+        l1=l1->link;
+    }
+    while (l2)
+    {
+        l3=add(l3,l2->info);
+        l2=l2->link;
+    }
+    return l3;
 }
 
 struct node *sortList(struct node *start)
@@ -198,8 +254,8 @@ int main()
             displayList(s1);
             printf("List 2: ");
             displayList(s2);
-            struct node *unionOfList = unionList(s1, s2);
-            unionOfList = sortList(unionOfList);
+            struct node *unionOfList = unionL(s1, s2);
+            // unionOfList = sortList(unionOfList);
             printf("Union:\n");
             displayList(unionOfList);
             break;
@@ -209,7 +265,7 @@ int main()
             printf("List 2: ");
             displayList(s2);
             struct node *intersection = intersectList(s1, s2);
-            intersection=sortList(intersection);
+            intersection = sortList(intersection);
             printf("Intersection:\n");
             displayList(intersection);
             break;

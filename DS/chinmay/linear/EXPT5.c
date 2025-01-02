@@ -153,6 +153,46 @@ void infix_to_postfix(const char *infix)
     printf(" \t\t%s\t\t%s\n", "Empty", postfix);
 }
 
+void in_to_post(const char* inf){
+    top=-1;
+    char symbol;
+    int p=0;
+    char c;
+    for (int i = 0; i < strlen(inf); i++)
+    {   
+        symbol=inf[i];
+        if(isWhiteSpace(symbol)) continue;
+        switch(symbol){
+            case '(':
+                push(symbol);
+                break;
+            case ')':
+                while( c=pop()!= '('){
+                    postfix[p++]=c;
+                }
+                break;
+            case '+':
+            case '-':
+            case '*':
+            case '/':
+            case '^':
+                while(in_stack_priority(stackArr[top])>in_symbol_priority(symbol)){
+                    postfix[p++]=pop();
+                }
+                push(symbol);
+                break;
+            default:
+                postfix[p++]=symbol;
+        }
+    }
+    while (!isEmpty())
+    {
+        postfix[p++]=pop();
+    }
+    postfix[p]='\0';
+}
+
+
 long int postfixEval(const char postfix[])
 {
     long int result = 0, tmp;
@@ -230,7 +270,8 @@ int main()
                 ;
             fgets(infix, sizeof(infix), stdin);
             infix[strcspn(infix, "\n")] = '\0';
-            infix_to_postfix(infix);
+            // infix_to_postfix(infix);
+            in_to_post(infix);
             printf("\nPostfix expression: %s\n", postfix);
             top = -1;
             break;

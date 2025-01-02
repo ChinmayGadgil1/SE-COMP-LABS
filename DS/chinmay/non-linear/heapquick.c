@@ -94,6 +94,39 @@ void quick(int arr[], int low, int up)
     quick(arr, pivloc + 1, up);  
 }
 
+int part(int arr[],int low,int up){
+    int pivot=arr[low];
+    int i=low+1,j=up;
+    while (i<j)
+    {
+        while(pivot>arr[i] && i<up){
+            i++;
+        }
+        while(pivot<arr[i]){
+            j--;
+        }
+        if(i<j){
+            int temp=arr[i];
+            arr[i]=arr[j];
+            arr[j]=temp;
+            i++;
+            j--;
+        }else{
+            i++;
+        }
+    }
+    arr[low]=arr[j];
+    arr[j]=pivot;
+    return j;
+}
+
+void quicks(int arr[],int low,int up){
+    int pivloc;
+    if(low>=up) return;
+    pivloc=part(arr,low,up);
+    quicks(arr,low,pivloc-1);
+    qucks(arr,pivloc+1,up);
+}
 
 
 int main(){

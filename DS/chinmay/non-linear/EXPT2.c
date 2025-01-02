@@ -185,6 +185,7 @@ struct treeNode *constructPostIn(struct listNode *postptr, struct listNode *inpt
         postptr = postptr->link;
 
     tmp->rchild = constructPostIn(postptr, p->link, n - i - 1);
+    return tmp;
 }
 
 void preorder(struct treeNode *root)
